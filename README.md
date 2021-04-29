@@ -14,10 +14,8 @@ Note this graph is an ongoing project which may take an undefined ammount of tim
 # Real World Implementation
 As is, the provided files serve as a framework for other projects and as a way to render the relations amongs the different musical genres and styles. But it can be used to compute the distance (similarity) between 2 points (genres) or the mean distance (total similarity) between 2 sets of points (2 sets of tags). Therefore it allows to compared directly a reference track against a library, using their tags, and find the most similar tracks (*). You can find such examples in these foobar2000's scripts:
 
-1. Search-by-Distance-SMP: creates playlists with similar tracks comparing their set of genres and styles among other things. 'GRAPH' method.
-https://github.com/regorxxx/Search-by-Distance-SMP  
-2. Playlist-Tools-SMP: a collection of tools which include the previous one and multiple implementations via menus (similar genres, only influences, etc.). 
-https://github.com/regorxxx/Playlist-Tools-SMP
+1. [Search-by-Distance-SMP](https://github.com/regorxxx/Search-by-Distance-SMP): creates playlists with similar tracks comparing their set of genres and styles among other things. 'GRAPH' method. 
+2. [Playlist-Tools-SMP](https://github.com/regorxxx/Playlist-Tools-SMP): a collection of tools which include the previous one and multiple implementations via menus (similar genres, only influences, etc.).
 
 (*) Note:  
 Obviously, to compute similarity between real music examples, more than genre/style similarity must be checked. The examples given also check for [key](https://github.com/regorxxx/Camelot-Wheel-Notation), BPM, moods, etc. This just covers the only thing which may not be compared with 'simple string matching'.
@@ -38,10 +36,6 @@ Even at a point where tracks could be automatically tagged just by saying 'Hey G
 # Dependencies
 All external dependencies are included in the 'ngraph' folder. They have been modified to work loaded along [Spider Monkey Foobar's scripts](https://github.com/TheQwertiest/foo_spider_monkey_panel) too but you can easily replace them with the original ones for html rendering. As is, they work in both cases.
 
-For graph creation ngraph has been used:  
-https://github.com/anvaka/ngraph
-
-For graph visualization VivaGraphJs has been used:  
-https://github.com/anvaka/VivaGraphJS
+For graph creation [ngraph](https://github.com/anvaka/ngraph) has been used and for graph visualization [VivaGraphJs](https://github.com/anvaka/VivaGraphJS). 
 
 Some extra helpers for html rendering are included in the 'html' subfolder (functions for color inversion and star drawing). 
