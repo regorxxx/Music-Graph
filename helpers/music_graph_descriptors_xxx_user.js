@@ -32,6 +32,10 @@ const music_graph_descriptors_user = {
 		style_supergenre: [
 		['My Own_supergenre',	['My Own Style/Genre A', 'My Own Style/Genre B']]
 		],
+		
+		map_colors: [
+		['My Own_supergenre', '#adadad'],
+		],
 	*/
 		
 	/*

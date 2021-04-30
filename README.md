@@ -36,6 +36,6 @@ Even at a point where tracks could be automatically tagged just by saying 'Hey G
 # Dependencies
 All external dependencies are included in the 'ngraph' folder. They have been modified to work loaded along [Spider Monkey Foobar's scripts](https://github.com/TheQwertiest/foo_spider_monkey_panel) too but you can easily replace them with the original ones for html rendering. As is, they work in both cases.
 
-For graph creation [ngraph](https://github.com/anvaka/ngraph) has been used and for graph visualization [VivaGraphJs](https://github.com/anvaka/VivaGraphJS). 
+For graph creation [ngraph](https://github.com/anvaka/ngraph) and visualization [VivaGraphJs](https://github.com/anvaka/VivaGraphJS) have been used . 
 
-Some extra helpers for html rendering are included in the 'html' subfolder (functions for color inversion and star drawing). 
+Some extra helpers for html rendering are included in the 'html' subfolder (functions for color inversion and star drawing). In 'ngraph_helpers_xxx.js' there are some helpers to calculate distance between points or sets of points (mean distance), something not provided by ngraph. Finally, 'music_graph_html_xxx.js' adds 3 functions to Set prototype (union, intersection and difference), essential for some debug functions.
