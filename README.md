@@ -1,12 +1,15 @@
 # Music-Graph
 An open source graph representation of most genres and styles found on popular, classical and folk music. Usually used to compute similarity (by distance) between tracks using their sets of genres/styles.
 
+![Draw Graph_05](https://user-images.githubusercontent.com/83307074/116747669-c73dee00-a9ed-11eb-9a5d-dbe805ff5f3d.gif)
+
 # Usage
 Just load Draw Graph.html into any browser.
 
 Any modifications to the graph can be added to 'music_graph_descriptors_xxx_user.js', while 'music_graph_descriptors_xxx.js' stores all default values. Obviously both can be edited, but future updates may replace the default ones... so user's additions are easier to maintain if stored separately (otherwise you will have to diff. merge). 
 
-Both files include multiple comments, how to's and examples for almost any graph modification and configuration imaginable. From node shapes, to colors, distances, etc.
+Both files include multiple comments, how to's and examples for almost any graph modification and configuration imaginable. From node shapes, to colors, distances, etc. Using the console allows you to find any possible error easily too (there are multiple debug checks for graph consistency):
+![Draw Graph_06](https://user-images.githubusercontent.com/83307074/116746844-a1fcb000-a9ec-11eb-989d-1991560a7e97.gif)
 
 # WIP
 Note this graph is an ongoing project which may take an undefined ammount of time to be complete, if that ever happens. Mapping all musical genres and styles, while also covering alternative terms and substitutions is a hard task.
@@ -16,6 +19,8 @@ As is, the provided files serve as a framework for other projects and as a way t
 
 1. [Search-by-Distance-SMP](https://github.com/regorxxx/Search-by-Distance-SMP): creates playlists with similar tracks comparing their set of genres and styles among other things. 'GRAPH' method. 
 2. [Playlist-Tools-SMP](https://github.com/regorxxx/Playlist-Tools-SMP): a collection of tools which include the previous one and multiple implementations via menus (similar genres, only influences, etc.).
+
+![playlist_tools_menu_04](https://user-images.githubusercontent.com/83307074/116748155-8d211c00-a9ee-11eb-8888-308a12c41b92.gif)
 
 (*) Note:  
 Obviously, to compute similarity between real music examples, more than genre/style similarity must be checked. The examples given also check for [key](https://github.com/regorxxx/Camelot-Wheel-Notation), BPM, moods, etc. This just covers the only thing which may not be compared with 'simple string matching'.
