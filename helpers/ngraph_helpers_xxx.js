@@ -78,8 +78,6 @@ function calc_map_distance(mygraph, key_one, key_two, bUseInfluence = false) {
 		}
 		
 		let path = [];
-		let idpath = "";
-
 		path = pathFinder.find(key_one, key_two);
 		distanceGraph = get_distanche_from_path(mygraph, path);
 		
@@ -118,7 +116,6 @@ if (typeof calcMeanDistance === 'undefined') {
 			if (!difference.size) { // If style_genre_new is superset of style_genre_reference.
 				map_distance = 0;
 			} else {
-				let map_distance_set = new Set();
 				let influenceDistance = 0;
 				for (let style_genre of difference) { // No need to check for those already matched. We are making an assumption here... i.e. that A genre has zero distance to only one value: A. But not to multiple ones: A, B, etc. That possibility is given by zero weight substitutions, but in that case 'calc_map_distance' will output a zero distance too.
 					let setMin = Infinity;

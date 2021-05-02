@@ -193,7 +193,7 @@ function music_graph_fordrawing(descriptor = music_graph_descriptors) {
 		const style_primary_origin = descriptor.style_primary_origin;
 		const style_secondary_origin = descriptor.style_secondary_origin;
 		const style_weak_substitutions = descriptor.style_weak_substitutions;
-		const style_substitutions =  descriptor.style_substitutions;
+		// const style_substitutions =  descriptor.style_substitutions; // Not used on drawing
 		// Weights
  		const primary_origin = descriptor.primary_origin;
 		const secondary_origin = descriptor.secondary_origin;
