@@ -5,6 +5,12 @@
 - [1.0.0](#100---2021-05-02)
 
 ## [Unreleased][]
+### Added
+- Multiple additions to descriptors.
+
+### Changed
+
+### Removed
 
 ## [1.0.0] - 2021-05-02
 ### Added
