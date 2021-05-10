@@ -6,11 +6,10 @@
 
 ## [Unreleased][]
 ### Added
-- Multiple additions to descriptors.
-
+- Descriptors: Multiple new additions.
 ### Changed
-
-### Removed
+- Debug: Greatly expanded the debug functions to check possible errors or inconsistencies in the descriptors. It should be foolproof now.
+- Descriptors: Multiple fixes on descriptors found with the new debug code.
 
 ## [1.0.0] - 2021-05-02
 ### Added
