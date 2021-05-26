@@ -11,7 +11,7 @@
 ### Removed
 ### Fixed
 
-## [1.1.0] - 2021-05-26
+## [1.0.1] - 2021-05-26
 ### Added
 - Descriptors: Multiple new additions.
 ### Changed
@@ -27,6 +27,6 @@
 ### Removed
 ### Fixed
 
-[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v1.1.0...HEAD
-[1.0.0]: https://github.com/regorxxx/Music-Graph/compare/v1.0.0...v1.1.0
+[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/regorxxx/Music-Graph/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/regorxxx/Music-Graph/compare/18ef1d3...v1.0.0
