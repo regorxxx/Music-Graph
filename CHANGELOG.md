@@ -9,7 +9,6 @@
 ### Added
 ### Changed
 - Helpers: Moved all external libraries to 'helpers-external'.
-- Helpers: split 'helpers_xxx.js' file into multiple ones for easier future maintenance.
 ### Removed
 ### Fixed
 
