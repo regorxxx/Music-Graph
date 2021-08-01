@@ -2,10 +2,10 @@
 
 // Required since this script is loaded on browsers for drawing too!
 try { // On foobar
-	include(fb.ProfilePath + 'scripts\\SMP\\xxx-scripts\\helpers-external\\ngraph\\ngraph.graph.js');
-	include(fb.ProfilePath + 'scripts\\SMP\\xxx-scripts\\helpers-external\\ngraph\\a-star.js');
-	include(fb.ProfilePath + 'scripts\\SMP\\xxx-scripts\\helpers-external\\ngraph\\a-greedy-star.js');
-	include(fb.ProfilePath + 'scripts\\SMP\\xxx-scripts\\helpers-external\\ngraph\\NBA.js');
+	include('..\\helpers-external\\ngraph\\ngraph.graph.js');
+	include('..\\helpers-external\\ngraph\\a-star.js');
+	include('..\\helpers-external\\ngraph\\a-greedy-star.js');
+	include('..\\helpers-external\\ngraph\\NBA.js');
 } catch (e) { // On browsers
 	// same files must be loaded on html
 	console.log('\'ngraph_helpers_xxx\' script is being used on browser. Omitting \'include\' clause.');
@@ -231,7 +231,7 @@ function calcCacheLinkSG(mygraph, limit = -1) {
 function getAntiInfluences(genreStyle) {
 	const doubleIndex = music_graph_descriptors.style_anti_influence.flat().indexOf(genreStyle);
 	const index = !(doubleIndex & 1) ? doubleIndex / 2 : -1; // -1 for odd indexes, halved for even values
-	if (index != -1) {
+	if (index !== -1) {
 		return music_graph_descriptors.style_anti_influence[index][1];
 	}
 	return [];
@@ -240,7 +240,7 @@ function getAntiInfluences(genreStyle) {
 function getInfluences(genreStyle) {
 	const doubleIndex = music_graph_descriptors.style_primary_origin.flat().indexOf(genreStyle);
 	const index = !(doubleIndex & 1) ? doubleIndex / 2 : -1; // -1 for odd indexes, halved for even values
-	if (index != -1) {
+	if (index !== -1) {
 		return music_graph_descriptors.style_primary_origin[index][1];
 	}
 	return [];
@@ -264,11 +264,11 @@ function get_nodes_from_path(graph, path) {
 
 // To capitalize nodes if using standard descriptors
 function capitalize(s) {
-  if (typeof s !== 'string') return '';
-  return s.charAt(0).toUpperCase() + s.slice(1)
+  if (typeof s !== 'string') {return '';}
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function capitalizeAll(s, sep = ' ') {
-  if (typeof s !== 'string') return '';
+  if (typeof s !== 'string') {return '';}
   return s.split(sep).map( (subS) => {return subS.charAt(0).toUpperCase() + subS.slice(1);}).join(sep); // Split, capitalize each subString and join
 }
