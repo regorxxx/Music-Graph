@@ -8,7 +8,9 @@
 
 ## [Unreleased][]
 ### Added
+- Descriptors: Updated descriptors. Added multiple genre and styles to punk, rock, pop, folk, industrial, downtempo and metal super-genres, along their style clusters, substitutions and influence relations.
 ### Changed
+- Debug: new config to show popup even after test passing (meant to be used along on demand checks). Default behavior remains the same, popup only appears if errors are found.
 - Helpers: Moved all external libraries to 'helpers-external'.
 ### Removed
 ### Fixed
