@@ -1,4 +1,5 @@
 ﻿'use strict';
+//08/10/21
 
 /*
 	These are the variables of the music graph: nodes (styles and genres), links, link weighting (aka distance) and rendering settings.
@@ -7,9 +8,9 @@
 	The music structure goes like this: Superclusters -> Clusters -> Supergenres -> Style clusters -> Styles (smallest nodes)
 	Obviously, the left terms are groups of the right terms.
 	
-	That means every user can set its "own map" according to their tags. Note your files MUST be tagged according to the descriptors,
+	That means every user can set its 'own map' according to their tags. Note your files MUST be tagged according to the descriptors,
 	but you can add substitutions at style_substitutions.... that's the thing most users will have to configure according to their tag usage.
-	Note the graph functions don't care whether the tag is a genre a style or whatever tag name you use. "Rock is rock", wherever it is. 
+	Note the graph functions don't care whether the tag is a genre a style or whatever tag name you use. 'Rock is rock', wherever it is. 
 	But that genre/style must be on music_graph_descriptors to be recognized.
 	
 	If you have new genres/styles not present on the graph then you probably need to add them to: 
@@ -20,12 +21,12 @@
 			- style_secondary_origin: connects styles which are secondary derivatives or origins. Farther than previous one.
 			- style_anti_influence: greatly distances two genres. It would be the opposite to bein in the same style cluster.
 	
-	Now, let's say you have a group of related styles not present on the graph. For ex. Grunge Rock, Classic Grunge, etc. They are all "grunge",
+	Now, let's say you have a group of related styles not present on the graph. For ex. Grunge Rock, Classic Grunge, etc. They are all 'grunge',
 	so you should not put them into style_supergenre matrix, where grunge already exists. We would want to add even smaller nodes than that
 	main genre. For that we use style_weak_substitutions, where we would put Grunge at the left, and connect it to Grunge Rock, Classic Grunge, etc.
-	Other approach would be to use style_cluster. Use whatever you prefer according to the link "distance" you want to add. Values at bottom.
+	Other approach would be to use style_cluster. Use whatever you prefer according to the link 'distance' you want to add. Values at bottom.
 		
-	"map_distance_exclusions" have those genre/style tags which are not related to an specific musical style. 
+	'map_distance_exclusions' have those genre/style tags which are not related to an specific musical style. 
 	i.e. Acoustic could be heavy metal, rock or whatever... so we skip it (for other calcs).
 	They are filtered because they have no representation on the graph, not being a real genre/style but a musical characteristic.
 	So they are useful for similarity scoring purposes but not for the graph. 
@@ -33,14 +34,14 @@
 	This means than any tag not included in the graph will be omitted for calcs, but you save time if you add it manually to the exclusions (otherwise the entire graph will be visited to try to find a match).
 
 	Then we got: Primary origins, secondary origins, weak substitutions, (direct) substitutions and anti-influences.
-	The first 3 are links between styles related "in some way". (Direct) substitutions are equivalent  nodes (A = B), with 0 distance.
+	The first 3 are links between styles related 'in some way'. (Direct) substitutions are equivalent  nodes (A = B), with 0 distance.
 	Finally, anti-influence accounts for styles which are considered too different, even being of the same group (style cluster or supergenres).
 	
-	The function "music_graph()" creates the graph, and the same for the HTML counterpart (it adds colors and all that to the main graph).
-	Execute "Draw Graph.html" on your browser and it should load the graph set on this file. So whatever you edit here, it gets shown on the rendered version. 
+	The function 'music_graph()' creates the graph, and the same for the HTML counterpart (it adds colors and all that to the main graph).
+	Execute 'Draw Graph.html' on your browser and it should load the graph set on this file. So whatever you edit here, it gets shown on the rendered version. 
 	That's an easy way to see if you added nodes at a wrong place, things not linked, etc. Much easier than checking matrices and lists of strings!
 	
-	Finally, the function "do_searchby_distance()" does all the calculations for similarity between tracks.
+	Finally, the function 'do_searchby_distance()' does all the calculations for similarity between tracks.
 */
 const music_graph_descriptors = {
 		
@@ -103,7 +104,7 @@ const music_graph_descriptors = {
 		['European Folk_supergenre'			,	['British Folk-Rock','British Folk-Jazz','Folk Baroque','Andro','Bourree','Bresse','Chapelloise','Circle','Farelquesh','Gavotte','Hanterdro','Kost ar c`hoad','Laridé','Mazurka','Jig','Plinn','Polka','Rond','Scottish','Tarantella','Tricot','Vals','Traditional European Folk','Bal Folk','German Folk','Irish','Scottish Folk','Romani']],
 		['South European Folk_supergenre'	,	['Cantautor','Rumba','Rumba Catalana','Rumba Fusión','Flamenco','Jota','Spanish Folk','Traditional European Folk','Éntekhno']],
 		['Country_supergenre'				,	['Alt. Country','Americana','Neo-Traditional Country','Contemporary Country','Outlaw Country','Country Pop','Country Rock','Nashville Sound','Bakersfield Sound','Progressive Bluegrass','Bluegrass','Honky Tonk','Old-Timey','Hillbilly','Country Boogie']],
-		['R&B_supergenre'					,	['Funktronica','Urban Soul','Neo Soul','Electrofunk','Deep Funk','Disco','Soul Blues','Smooth Soul','Disco','Classic Funk','P-Funk','Funk Rock','Contemporary Funk','Psychedelic Funk','Psychedelic Soul','New Orleans R&B','Funk Blues','Deep Funk Revival','Philadelphia Soul','Motown Sound','Southern Soul','Doo Wop','R&B']],
+		['R&B_supergenre'					,	['Funktronica','Ambient Funk','Urban Soul','Neo Soul','Electrofunk','Deep Funk','Disco','Soul Blues','Smooth Soul','Disco','Classic Funk','P-Funk','Funk Rock','Contemporary Funk','Psychedelic Funk','Psychedelic Soul','New Orleans R&B','Funk Blues','Deep Funk Revival','Philadelphia Soul','Motown Sound','Southern Soul','Doo Wop','R&B']],
 		['Blues_supergenre'					,	['Contemporary Blues','Desert Blues','Hill Country Blues','Soul Blues','Modern Electric Blues','Psychedelic Blues','Blues Rock','Funk Blues','British Blues','Zydeco','Chicago Blues','Detroit Blues','Memphis Blues','Jump Blues','Texas Blues','Piano Blues','Vaudeville Blues','Country Blues','Delta Blues']],
 		['Gospel_supergenre'				,	['Contemporary Christian Music','Christian Rock','Modern Gospel','Ragtime','Stride','Traditional Gospel','Spirituals','Worksongs']],
 		['Jazz_supergenre'					,	['Third Stream','Contemporary Jazz','Electro Swing','Nordic Jazz','Nu Jazz','Future Jazz','Acid Jazz','Smooth Jazz','Jazz-Rock','Fusion','Post-Bop','Free Jazz','Avant-Garde Jazz','Soul-Jazz','Jazz-Blues','Jazz-Funk','Hard-Bop','Cool Jazz','Bebop','New Orleans Jazz Revival','Dixieland Revival','Modal Jazz','Latin-Jazz','Bossa Nova','Swing','Mainstream Jazz','Gypsy-Jazz','Big Band','Chicago Jazz','New Orleans Jazz','Dixieland']],
@@ -194,7 +195,7 @@ const music_graph_descriptors = {
 		['Celtic Folk XL'					,	['Celtic','Folk Metal','Pagan Folk']],
 		['European Pre-Modern Folk XL'		,	['Medieval','Renaissance']],
 		['Modern Folk XL'					,	['Contemporary Folk','Folk Pop','Folk-Rock']],
-		['Ambient XL'						,	['Ambient','Ambient Industrial','Nature Music','Ambient Rock','Ambient Folk','Ambient Electronic','Ambient Metal','Ambient New Age','Ambient Classical']]
+		['Ambient XL'						,	['Ambient','Ambient Industrial','Nature Music','Ambient Rock','Ambient Folk','Ambient Electronic','Ambient Metal','Ambient New Age','Ambient Classical','Ambient Funk']]
 		],
 		
 		// Weighted connections between related styles or genres. Origins or derivatives.
@@ -300,18 +301,20 @@ const music_graph_descriptors = {
 		['Folk Baroque'						,	['Americana','Country_supergenre','Country_supergenre','Country Rock','Country Folk','Heartland Rock','Sunshine Pop','Beat Music','Roots Rock']],
 		['Grunge'							,	['Indie','Britpop','Funk Metal','Beat Music','Roots Rock','Glam Rock','Pop Metal','Glam Metal','Hair Metal']],
 		['Post-Britpop'						,	['Garage Rock Revival','Post-Punk Revival','Garage Punk']],
-		['Garage Rock Revival'				,	['Dream Pop','Shoegaze']],
+		['Garage Rock Revival'				,	['Dream Pop','Shoegaze']],		
 		['Freak Folk'						,	['Electropop','Psychedelic Rock','Acid Rock']],
 		['Chill-Out Downtempo'				,	['Progressive Trance','New Age','New Age XL','Neo-Classical New Age','Healing Music','New Acoustic']],
 		['Future Jazz'						,	['Industrial_supergenre','Metal_supergenre','Classic Rock XL','Rock_cluster','Punk Rock_supergenre','Pop_supergenre','Country_supergenre','Blues_supergenre']],
-		['Jazz_supergenre'						,	['Industrial_supergenre','Metal_supergenre','Classic Rock XL','Rock_cluster','Punk Rock_supergenre','Pop_supergenre','Country_supergenre','Blues_supergenre']],
+		['Jazz_supergenre'					,	['Industrial_supergenre','Metal_supergenre','Classic Rock XL','Rock_cluster','Punk Rock_supergenre','Pop_supergenre','Country_supergenre','Blues_supergenre']],
+		['Blues_supergenre'					,	['Industrial_supergenre','Metal_supergenre','Rap_supergenre','Hardcore Punk_supergenre','Electronic Music_supercluster','Classic Metal XL','Heavy Prog','Dream Pop','Indie']],
 		['Traditional Pop'					,	['Electropop','Electronic Music_supercluster','Electro','Psychedelic Rock','Psychedelic Folk','Progressive Rock']],
 		['Electronic Music_supercluster'	,	['Metal_supergenre','Classic Rock XL','Punk Rock_supergenre','Country_supergenre','Blues_supergenre','Jazz_supergenre']],
 		['Stoner Rock'						,	['Pop Rock','Pop_supergenre']],
 		['Death Metal'						,	['Contemporary Christian Music','Christian Rock','Pop_supergenre']],
 		['Thrash Metal'						,	['Glam Metal','Hair Metal','Pop Metal']],
 		['Sadcore'							,	['Dream Pop','Traditional Pop','Mainstream Pop','Traditional Pop','Vocal Pop','Britpop','Beat Music','Glam Rock']],
-		['Nature Music'						,	['Ambient Industrial','Loungetronica','Easy Listening','Lounge XL','Ambient Dance']]
+		['Nature Music'						,	['Ambient Industrial','Loungetronica','Easy Listening','Lounge XL','Ambient Dance']],
+		['Jazz-Rap'							,	['Gangsta','Hardcore Rap','Horrorcore']]
 		],
 		
 		// Genres or styles that are pretty similar but not exactly the same. Combinations must be added as multiple entries.
@@ -343,7 +346,7 @@ const music_graph_descriptors = {
 		['Glam Metal'						,	['Hair Metal'						]]
 		],
 		
-		// Some big groups or clusters are equal to genres or styles "in the classic sense", so these are direct connections for them:
+		// Some big groups or clusters are equal to genres or styles 'in the classic sense', so these are direct connections for them:
 		// ALWAYS PUT FIRST the genre at the graph, then -at the right- the one(s) expected to be found on tags.
 		// Example: we tag files as 'Golden Age Rock' and/or '60s Rock' instead of 'Classic Rock' (the value at the graph), then
 		// We would add this line:
@@ -363,7 +366,7 @@ const music_graph_descriptors = {
 		['Country_supergenre'				,	['Country'							]],
 		['Blues_supergenre'					,	['Blues'							]],
 		['Jazz_supergenre'					,	['Jazz','Jazz Vocal'				]],
-		['Rap_cluster'						,	['Hip-Hop'							]],
+		['Rap_supergenre'					,	['Hip-Hop'							]],
 		['Hardcore Rap'						,	['Hardcore'							]],
 		['Electronic Music_supercluster'	,	['Electronic'						]],
 		['Techno_supergenre'				,	['Techno'							]],
@@ -475,8 +478,8 @@ const music_graph_descriptors = {
 		*/
 		
 		// Assigns colors to labels and nodes
-		// Anything named "..._supergenre" will be added to the html color label legend automatically.
-		// If more than one "...Folk..._supergenre" or "...Classical..._supergenre" is found, then it will be skipped.
+		// Anything named '..._supergenre' will be added to the html color label legend automatically.
+		// If more than one '...Folk..._supergenre' or '...Classical..._supergenre' is found, then it will be skipped.
 		// i.e. It will list Folk and Classical only once, even if there are multiple (sub)SuperGenres.
 		map_colors: [
 		// Supergenres
@@ -523,7 +526,7 @@ const music_graph_descriptors = {
 		['Indian Classical_supergenre'			,'#adadad'],
 		// Supergenre Clusters
 		['Industrial_cluster'					,'#e04103'], // From here to the bottom, will not be added to the color label legend,
-		['Metal_cluster'						,'#D88417'], // because the names don't have "..._supergenre"
+		['Metal_cluster'						,'#D88417'], // because the names don't have '..._supergenre'
 		['Rock_cluster'							,'#F3C605'],
 		['Pop_cluster'							,'#F9FF03'],
 		['Country_cluster'						,'#8FA800'],
