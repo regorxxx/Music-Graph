@@ -9,11 +9,13 @@
 
 ## [Unreleased][]
 ### Added
+- HTML: Added statistics calculation. To run it, use the associated button, results will be shown on a popup and cached for the current session.
+- HTML: Added reset view button.
 - HTML: SuperGenre legend is now dragable.
 - HTML: Selecting a node and pressing shift while hovering another node shows the distance (+ influences) between them.
 - HTML: Selecting a node and pressing shift while hovering another node highlights the shortest path between them.
 - HTML: Added favicon.
-- Debug: added 'graphStatistics' function which will perform basic statistical analysis over the entire graph, providing variables like: mean, median, standard deviation, distance histogram, etc. Given those values, it's reasonably easy to 'choose' the right values to retrieve nodes for a given distance threshold. Results are output to console.
+- Debug: added 'graphStatistics' function which will perform basic statistical analysis over the entire graph, providing variables like: mean, median, standard deviation, distance histogram, etc. Given those values, it's reasonably easy to 'choose' the right values to retrieve nodes for a given distance threshold.
 ### Changed
 ### Removed
 ### Fixed
