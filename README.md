@@ -3,7 +3,7 @@
 [![CodeFactor][codefactor_badge]](https://www.codefactor.io/repository/github/regorxxx/Music-Graph/overview/main)
 [![Codacy Badge][codacy_badge]](https://www.codacy.com/gh/regorxxx/Music-Graph/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=regorxxx/Music-Graph&amp;utm_campaign=Badge_Grade)
 ![GitHub](https://img.shields.io/github/license/regorxxx/Music-Graph)  
-An open source graph representation of most genres and styles found on popular, classical and folk music. Usually used to compute similarity (by distance) between tracks using their sets of genres/styles. **[Live demo can be found here](https://regorxxx.github.io/Music-Graph/Draw%20Graph.html)**.
+An open source graph representation of most genres and styles found on popular, classical and folk music. Usually used to compute similarity (by distance) between tracks using their sets of genres/styles. **[Live demo here](https://regorxxx.github.io/Music-Graph/Draw%20Graph.html)**.
 
 ![Draw Graph_05](https://user-images.githubusercontent.com/83307074/116747669-c73dee00-a9ed-11eb-9a5d-dbe805ff5f3d.gif)
 
