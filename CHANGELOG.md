@@ -16,9 +16,17 @@
 - HTML: Selecting a node and pressing shift while hovering another node highlights the shortest path between them.
 - HTML: Added favicon.
 - Debug: added 'graphStatistics' function which will perform basic statistical analysis over the entire graph, providing variables like: mean, median, standard deviation, distance histogram, etc. Given those values, it's reasonably easy to 'choose' the right values to retrieve nodes for a given distance threshold.
+- Debug: added multiple letter case checks at debug.
+- Debug: added accent checks (instead of single quotes) at debug.
+- Debug: added ASCII compatibility checks at debug.
 ### Changed
+- HTML: Changed CSS layout to adjust sizes according to window.
 ### Removed
 ### Fixed
+- Descriptors: fixed multiple letter case errors.
+- Descriptors: fixed accent usage instead of single quote.
+- Cultural Regions: improved capitalization logic.
+- Progress code in multiple tools have been fixed to display more accurately the percentage progress in the log.
 
 ## [1.1.0] - 2021-12-23
 ### Added
