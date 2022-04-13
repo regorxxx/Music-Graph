@@ -2,12 +2,19 @@
 
 ## [Table of Contents]
 - [Unreleased](#unreleased)
+- [1.2.0](#120---2022-04-13)
 - [1.1.0](#110---2021-12-23)
 - [1.0.2](#102---2021-06-07)
 - [1.0.1](#101---2021-05-26)
 - [1.0.0](#100---2021-05-02)
 
 ## [Unreleased][]
+### Added
+### Changed
+### Removed
+### Fixed
+
+## [1.2.0] - 2022-04-13
 ### Added
 - HTML: Added statistics calculation. To run it, use the associated button, results will be shown on a popup and cached for the current session. Statistics button is now animated while processing
 - HTML: Added reset view button.
@@ -62,7 +69,8 @@
 ### Removed
 ### Fixed
 
-[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/regorxxx/Music-Graph/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/regorxxx/Music-Graph/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/regorxxx/Music-Graph/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/regorxxx/Music-Graph/compare/v1.0.0...v1.0.1
