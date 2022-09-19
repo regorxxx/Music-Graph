@@ -11,6 +11,10 @@
 ## [Unreleased][]
 ### Added
 ### Changed
+- Descriptors: updated descriptors with multiple additions.
+- Descriptors: user file has been moved to profile folder at 'js_data/helpers/music_graph_descriptors_xxx_user.js'. This will ensure it doesn't get overwritten on script updates. Using the menu entries to open the descriptor will automatically create a copy there and open it if it's not found. Users who have been adding changes and being careful to not overwrite the file at the current location only have to copy it manually or use the menu entry to apply the change (and future edits must be done on the data folder). This step is only required once.
+- Descriptors: all style/genres on the graph use now ASCII only values, so it should be easier to match any value to them if required.
+- HTML: tries to load the user descriptors file from data folder first, then from helpers folder if not found. Will give a warning on console on the latter.
 ### Removed
 ### Fixed
 
