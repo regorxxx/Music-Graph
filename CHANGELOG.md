@@ -11,9 +11,14 @@
 ## [Unreleased][]
 ### Added
 ### Changed
+- GRAPH: changed distance logic to be invariant to inversion (A->BC = BC -> A) and equivalent tag values (A->B1B2B3 = A-> B1B2) addition; both were lowering the total distance 'for free' in some cases. This will provide better results for tracks with lower tag counts, not so heavily weighted by the number of genre/style values. Distance values have changed for many use-cases so presets have been reworked to account for that.
+- GRAPH: minor performance improvement using non-oriented links.
 - Descriptors: updated descriptors with multiple additions.
 - Descriptors: user file has been moved to profile folder at 'js_data/helpers/music_graph_descriptors_xxx_user.js'. This will ensure it doesn't get overwritten on script updates. Using the menu entries to open the descriptor will automatically create a copy there and open it if it's not found. Users who have been adding changes and being careful to not overwrite the file at the current location only have to copy it manually or use the menu entry to apply the change (and future edits must be done on the data folder). This step is only required once.
 - Descriptors: all style/genres on the graph use now ASCII only values, so it should be easier to match any value to them if required.
+- Descriptors: improved debug checks for the genre/style graph.
+- Descriptors: changed style cluster distance.
+- Descriptors: updated and improved descriptors documentation (present on .js files).
 - HTML: tries to load the user descriptors file from data folder first, then from helpers folder if not found. Will give a warning on console on the latter.
 ### Removed
 ### Fixed
