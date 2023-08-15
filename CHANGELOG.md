@@ -2,6 +2,7 @@
 
 ## [Table of Contents]
 - [Unreleased](#unreleased)
+- [2.0.0](#200---2023-08-15)
 - [1.2.0](#120---2022-04-13)
 - [1.1.0](#110---2021-12-23)
 - [1.0.2](#102---2021-06-07)
@@ -9,6 +10,12 @@
 - [1.0.0](#100---2021-05-02)
 
 ## [Unreleased][]
+### Added
+### Changed
+### Removed
+### Fixed
+
+## [2.0.0] - 2023-08-15
 ### Added
 ### Changed
 - GRAPH: changed distance logic to be invariant to inversion (A->BC = BC -> A) and equivalent tag values (A->B1B2B3 = A-> B1B2) addition; both were lowering the total distance 'for free' in some cases. This will provide better results for tracks with lower tag counts, not so heavily weighted by the number of genre/style values. Distance values have changed for many use-cases so presets have been reworked to account for that.
@@ -78,7 +85,8 @@
 ### Removed
 ### Fixed
 
-[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/regorxxx/Music-Graph/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/regorxxx/Music-Graph/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/regorxxx/Music-Graph/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/regorxxx/Music-Graph/compare/v1.0.1...v1.0.2
