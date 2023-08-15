@@ -1,19 +1,19 @@
 ﻿'use strict';
-//08/09/22
+//23/07/23
 
 // Required since this script is loaded on browsers for drawing too!
 
-if (typeof include !== 'undefined') { // On foobar
-	include('..\\helpers-external\\ngraph\\ngraph.graph.js');
+if (typeof include !== 'undefined') { // On foobar2000
+	include('..\\..\\helpers-external\\ngraph\\ngraph.graph.js');
 	include('music_graph_descriptors_xxx.js');
 	include('music_graph_descriptors_xxx_helper.js');
-	include('helpers_xxx.js');
-	include('helpers_xxx_statistics.js');
+	include('..\\..\\helpers\\helpers_xxx.js');
+	include('..\\..\\helpers\\helpers_xxx_statistics.js');
 	let userDescriptor = folders.userHelpers + 'music_graph_descriptors_xxx_user.js';
 	if (utils.IsFile(userDescriptor)) {
 		try {
-			// console.log('User\'s music_graph_descriptors - File loaded: ' + userDescriptor);
 			include(userDescriptor);
+			console.log('User\'s music_graph_descriptors - File loaded: ' + userDescriptor);
 		} catch (e) { 
 			console.log('Error loading user\'s music_graph_descriptors. Using default file instead.');
 		}
@@ -26,9 +26,9 @@ if (typeof include !== 'undefined') { // On foobar
 
 
 /*
-	Creates Music Map links for foobar 
+	Creates Music Map links for foobar2000 
 */
-function musicGraph(descriptor = music_graph_descriptors) {
+function musicGraph(descriptor = music_graph_descriptors, bHtml = false) {
 		// Maps
 		const style_supergenre_supercluster = descriptor.style_supergenre_supercluster;
 		const style_supergenre_cluster = descriptor.style_supergenre_cluster;
@@ -60,7 +60,9 @@ function musicGraph(descriptor = music_graph_descriptors) {
 			mygraph = createGraph();
 		} catch (e) {
 			mygraph = Viva.Graph.graph();
-			console.log('Warning: musicGraph() used within html. You should use musicGraphForDrawing() instead! (Unless this is a call from debug func)');
+			if (!bHtml) {
+				console.log('Warning: musicGraph() used within html. You should use musicGraphForDrawing() instead! (Unless this is a call from graphDebug())');
+			}
 		}
 		let i, j, h;
 		let superGenreSets = [];
@@ -244,7 +246,7 @@ function musicGraphForDrawing(descriptor = music_graph_descriptors) {
 			mygraph = Viva.Graph.graph();
 		} catch (e) {
 			mygraph = createGraph();
-			console.log('Warning: musicGraphForDrawing() used within foobar. You should use musicGraph() instead!');
+			console.log('Warning: musicGraphForDrawing() used within foobar2000. You should use musicGraph() instead!');
 		}
 		
 		//Create and fill graph with links (and nodes)
@@ -348,7 +350,7 @@ function musicGraphForDrawing(descriptor = music_graph_descriptors) {
 	Extensive graph checking for debugging. Use this along the html rendering to check there are no duplicates, wrong links set, not connected nodes, typos, etc.
 	Unoptimized code on multiple loops since this should be run only on demand for testing once on a while...
 */
-function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
+function graphDebug(graph = musicGraph(), bShowPopupOnPass = false, bHtml = false) {
 	console.log('music_graph_descriptors_xxx: Basic debug enabled');
 	let bWarning = false;
 	
@@ -378,7 +380,7 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
 	// Usually fires if you add A as substitution to B but also add A as primary/secondary origin to B. Or as anti-influence.
 	const wrongLinks = influenceLinks.intersection(zeroLinks); // This one requires music_graph_html_xxx.js when loaded within html!
 	if (wrongLinks.size !== 0) {
-		console.log('music_graph_descriptors_xxx Warning: there are some links with distance equal to 0 but a non zero influence distance modifier.\n' + '	' + Array.from(wrongLinks).join(', '));
+		console.log('music_graph_descriptors_xxx Warning: there are some links with distance equal to 0 but a non zero influence distance modifier.\n' + '	' + [...wrongLinks].join(', '));
 		bWarning = true;
 	}
 	// Standard keys >= 0
@@ -490,9 +492,7 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
 	});
 	// Check that all nodes on influences are present in other descriptors
 	music_graph_descriptors.style_anti_influence.concat(music_graph_descriptors.style_secondary_origin, music_graph_descriptors.style_primary_origin).forEach( (nodePair) => {
-		const nodeNumbers = nodePair[1].length;
-		for (let i = nodeNumbers; i--;) {
-			let node = nodePair[1][i];
+		[...nodePair[1], nodePair[0]].forEach((node) => {
 			bFound = false;
 			for (let j = superGenreNumbers; j--;) {
 				if (music_graph_descriptors.style_supergenre[j].flat(Infinity).indexOf(node) !== -1) {bFound = true;}
@@ -526,7 +526,7 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
 				console.log('music_graph_descriptors_xxx Warning: \'style_anti_influence\' or \'style_secondary_origin\' or \'style_primary_origin\' has nodes not found on any other descriptor. Check \'Graph nodes and links\' section\n' + '	' +  node);
 				bWarning = true;
 			}
-		}
+		});
 	});
 	// Check that all superGenres are present in other descriptors
 	music_graph_descriptors.style_supergenre.forEach( (nodePair) => {
@@ -602,7 +602,7 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
 	// Test basic paths using the graph. 
 	// Try to load the already existing graph, otherwise uses a new one. If debug is called without the required dependencies then this is skipped.
 	let bGraphDeclared = true;
-	try {allMusicGraph;}
+	try {sbd && sbd.allMusicGraph;}
 	catch(e) {
 		if (e.name === 'ReferenceError') {
 			bGraphDeclared = false;
@@ -617,7 +617,7 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
 	}
 	if (bIncludesDeclared) {
 		console.log('music_graph_descriptors_xxx: Advanced debug enabled');
-		const mygraph = bGraphDeclared ? allMusicGraph : musicGraph(); // Foobar graph, or HTML graph or a new one
+		const mygraph = bGraphDeclared ? sbd.allMusicGraph : musicGraph(void(0), bHtml); // foobar2000 graph, or HTML graph or a new one
 		let pathFinder = nba(mygraph, {
 			distance(fromNode, toNode, link) {
 			return link.data.weight;
@@ -687,12 +687,12 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false) {
 	
 	if (bWarning) {
 		const message = 'There are some errors on \'music_graph_descriptors_xxx.js\' or \'music_graph_descriptors_xxx_user.js\'';
-		try {fb.ShowPopupMessage('Check console. ' + message, 'music_graph_descriptors_xxx');} // On foobar
+		try {fb.ShowPopupMessage('Check console. ' + message, 'music_graph_descriptors_xxx');} // On foobar2000
 		catch (e) {alert('Check console \'Ctrl + Shift + K\'. ' + message);} // On browsers
 	} else {
 		if (bShowPopupOnPass) {
 			const message = 'All tests passed.\nChecked \'music_graph_descriptors_xxx.js\' and \'music_graph_descriptors_xxx_user.js\'';
-			try {fb.ShowPopupMessage(message, 'music_graph_descriptors_xxx');} // On foobar
+			try {fb.ShowPopupMessage(message, 'music_graph_descriptors_xxx');} // On foobar2000
 			catch (e) {alert(message);} // On browsers
 		}
 		console.log('music_graph_descriptors_xxx: All tests passed');
@@ -707,9 +707,11 @@ function histogram(data, size) {
 	let max = -Infinity;
 	for (const item of data) {
 		if (item < min) {min = item;}
-		else if (item > max) {max = item;}
+		if (item > max) {max = item;}
 	}
-	const bins = Math.ceil((max - min + 1) / size);
+	if (min === Infinity) {min = 0;}
+	if (max === -Infinity) {max = 0;}
+	let bins = Math.ceil((max - min + 1) / size);
 	const histogram = new Array(bins).fill(0);
 	for (const item of data) {
 		histogram[Math.floor((item - min) / size)]++;
@@ -717,18 +719,29 @@ function histogram(data, size) {
 	return histogram;
 }
 
-async function graphStatistics({descriptor = music_graph_descriptors, bFoobar = false, properties = null, graph = musicGraph(descriptor)} = {}) {
+async function graphStatistics({
+		descriptor = music_graph_descriptors, 
+		bHtml = false, 
+		bFoobar = false, 
+		properties = null, 
+		graph = musicGraph(descriptor, bHtml), 
+		influenceMethod // Must be provided
+		} = {}) {
 	let styleGenres;
 	if (bFoobar) { // using tags from the current library
-		const genreTag = properties && properties.hasOwnProperty('genreTag') ? properties.genreTag[1].split(/, */g).map((tag) => {return '%' + tag + '%';}).join('|') : '%genre%';
-		const styleTag = properties && properties.hasOwnProperty('styleTag') ? properties.styleTag[1].split(/, */g).map((tag) => {return '%' + tag + '%';}).join('|') : '%style%';
+		const genreTag = properties && properties.hasOwnProperty('genreTag') 
+			? JSON.parse(properties.genreTag[1]).map((tag) => {return tag.indexOf('$') === -1 ? _t(tag): tag;}).join('|') 
+			: _t(globTags.genre);
+		const styleTag = properties && properties.hasOwnProperty('styleTag') 
+			? JSON.parse(properties.genreTag[1]).map((tag) => {return tag.indexOf('$') === -1 ? _t(tag): tag;}).join('|') 
+			: _t(globTags.style);
 		const tags = [genreTag, styleTag].filter(Boolean).join('|');
 		const tfo = fb.TitleFormat(tags);
 		styleGenres = new Set(tfo.EvalWithMetadbs(fb.GetLibraryItems()).join('|').split(/\| *|, */g)); // All styles/genres from library without duplicates
 	} else { // or the entire graph
 		styleGenres = new Set([...descriptor.style_supergenre, ...descriptor.style_weak_substitutions, ...descriptor.style_substitutions, ...descriptor.style_cluster].flat(Infinity));
 	}
-	const cacheLink = await calcCacheLinkSGV2(graph, styleGenres);
+	const cacheLink = await calcCacheLinkSGV2(graph, styleGenres, void(0), influenceMethod);
 	// Calc basic statistics
 	const statistics = {maxDistance: -1, maxCount: 0, minNonZeroDistance: Infinity, minNonZeroCount: 0, minDistance: Infinity, minCount: 0, mean: -1, median: -1, mode: -1, sigma: -1, totalSize: -1};
 	const distances = [];
@@ -764,7 +777,7 @@ async function graphStatistics({descriptor = music_graph_descriptors, bFoobar = 
 		if (acumFreq <= 0) {break;} else {i++;}
 	}
 	statistics.median = i > 0 ? (Number(histEntries[i - 1][0]) + Number(histEntries[i][0])) / 2 : Number(histEntries[i][0]);
-	// Usually follows a normal distribution, so that may give us some key parameters for graph filtering 'sbd_max_graph_distance'
+	// Usually follows a normal distribution, so that may give us some key parameters for graph filtering 'graphDistance'
 	// In real world usage it is not A -> B but {A,B,C} -> {C,D} or similar... i.e. sets of styles/genres
 	// Anyway since the total distance is divided by the num of tags, the results are still applicable
 	const offset = poz(-3);
