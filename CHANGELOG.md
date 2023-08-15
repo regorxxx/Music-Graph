@@ -26,6 +26,7 @@
 - Descriptors: changed style cluster distance.
 - Descriptors: updated and improved descriptors documentation (present on .js files).
 - HTML: tries to load the user descriptors file from data folder first, then from helpers folder if not found. Will give a warning on console on the latter.
+- Reworked files structure.
 ### Removed
 ### Fixed
 
