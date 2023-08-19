@@ -12,6 +12,7 @@
 ## [Unreleased][]
 ### Added
 ### Changed
+- Descriptors: updated descriptors with multiple additions.
 ### Removed
 ### Fixed
 
