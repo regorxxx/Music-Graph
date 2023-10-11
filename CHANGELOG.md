@@ -12,8 +12,10 @@
 ## [Unreleased][]
 ### Added
 - Cultural Regions: complete integration of cultural regions; all styles on graph are now added.
-### Changed
 - Descriptors: updated descriptors with multiple additions: Kuduro, Semba, Kizomba, African Ritual-Tribal, Afro-Latin Ritual-Tribal, Asian Ritual-Tribal, Aboriginal Folk, Pre-Columbian Ritual-Tribal, Mbalax, Melodic Techno-House.
+- Descriptors: added 'Chamber Music XL', Orchestral Music XL', 'Ballroom Music XL', 'Poetry-Secular Music XL', 'Choral-Spiritual Music XL' and 'Choral-Orchestral Music XL' classical music style clusters.
+- Descriptors: AllMusic support linking their genre/styles to the graph with substitutions.
+### Changed
 - Descriptors: updated descriptors with multiple influences.
 - Code cleanup.
 ### Removed
