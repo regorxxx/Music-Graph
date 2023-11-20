@@ -12,16 +12,19 @@
 ## [Unreleased][]
 ### Added
 - Cultural Regions: complete integration of cultural regions; all styles on graph are now added.
-- Descriptors: improved debug routines to avoid situations where a susbstitution term doesn't exist in the graph.
+- Descriptors: improved debug routines to avoid situations where a substitution term doesn't exist in the graph.
+- Descriptors: improved debug tests to avoid duplicates entries in substitutions, influences, etc.
 - Descriptors: improved pathfinder routines to throw -with a descriptive error- when a path is not found due to some genre not being connected to the graph.
 - Descriptors: updated descriptors with multiple additions: Kuduro, Semba, Kizomba, African Ritual-Tribal, Afro-Latin Ritual-Tribal, Asian Ritual-Tribal, Aboriginal Folk, Pre-Columbian Ritual-Tribal, Mbalax, Melodic Techno-House, Kawaii Metal, Branle, Darksynth.
 - Descriptors: added 'Chamber Music XL', Orchestral Music XL', 'Ballroom Music XL', 'Poetry-Secular Music XL', 'Choral-Spiritual Music XL' and 'Choral-Orchestral Music XL' classical music style clusters.
 - Descriptors: AllMusic support linking their genre/styles to the graph with substitutions.
 ### Changed
+- Descriptors: extended debug tests for accents, ASCII compatibility and capitalization for all entries (including AllMusic).
 - Descriptors: updated descriptors with multiple influences.
 - Code cleanup.
 ### Removed
 ### Fixed
+- Descriptors: cleanup of duplicates entries and other minor errors in substitutions, influences, etc.
 
 ## [2.0.0] - 2023-08-15
 ### Added
