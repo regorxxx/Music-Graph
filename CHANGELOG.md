@@ -22,6 +22,7 @@
 ### Changed
 - Descriptors: extended debug tests for accents, ASCII compatibility and capitalization for all entries (including AllMusic).
 - Descriptors: updated descriptors with multiple influences.
+- HTML: minor UI tweaks.
 - HTML: moved HTML related scripts to its own folder.
 - HTML: updated jquery dependency.
 - Code cleanup.
