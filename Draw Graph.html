@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!-- 21/11/23 -->
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>Music Graph</title>
-		<link rel="icon" href="helpers-external/ngraph/html/images/icon.png">
-		<script type="text/javascript" src="helpers-external/ngraph/html/vivagraph.min.js"></script>
-		<script type="text/javascript" src="helpers-external/ngraph/html/jquery.min.jsm.js"></script>
-		<script type="text/javascript" src="helpers-external/ngraph/html/invert.js"></script>
-		<script type="text/javascript" src="helpers-external/ngraph/html/starpoints.js"></script>
+		<link rel="icon" href="helpers-external/ngraph-html/images/icon.png">
+		<script type="text/javascript" src="helpers-external/ngraph-html/vivagraph.js"></script>
+		<script type="text/javascript" src="helpers-external/ngraph-html/jquery.js"></script> <!-- slim -->
+		<script type="text/javascript" src="helpers-external/ngraph-html/invert.js"></script>
+		<script type="text/javascript" src="helpers-external/ngraph-html/starpoints.js"></script>
 		<script type="text/javascript" src="helpers-external/ngraph/defaultSettings.js"></script>
 		<script type="text/javascript" src="helpers-external/ngraph/heuristics.js"></script>
 		<script type="text/javascript" src="helpers-external/ngraph/makeNBASearchStatePool.js"></script>
@@ -528,7 +528,6 @@
 				overlay.style.display = 'block';
 				popup.style.display = 'block';
 			}
-			
 			function resetView() {
 				document.body.dispatchEvent(new KeyboardEvent('keydown', {which: 32}));
 			}
@@ -692,6 +691,10 @@
 			<button id="statisticsButton" onclick="showStatistics()" style="width: 8.2rem">Calculate statistics</button>
 			<br>
 			<button id="resetButton" onclick="resetView()" style="width: 8.2rem">Reset view</button>
+			<br>
+			<button id="liveButton" onclick="location.href='https://regorxxx.github.io/Music-Graph/';" style="width: 8.2rem">Live version</button>
+			<br>
+			<button id="resetButton" onclick="location.href='https://github.com/regorxxx/Music-Graph';" style="width: 8.2rem">Open GitHub</button>
 		</span>
 		<div id='label'>
 			Labels...
