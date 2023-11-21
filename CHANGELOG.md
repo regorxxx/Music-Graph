@@ -18,7 +18,7 @@
 - Descriptors: updated descriptors with multiple additions: Kuduro, Semba, Kizomba, African Ritual-Tribal, Afro-Latin Ritual-Tribal, Asian Ritual-Tribal, Aboriginal Folk, Pre-Columbian Ritual-Tribal, Mbalax, Melodic Techno-House, Kawaii Metal, Branle, Darksynth.
 - Descriptors: added 'Chamber Music XL', Orchestral Music XL', 'Ballroom Music XL', 'Poetry-Secular Music XL', 'Choral-Spiritual Music XL' and 'Choral-Orchestral Music XL' classical music style clusters.
 - Descriptors: AllMusic support linking their genre/styles to the graph with substitutions.
-- HTML: added buttons to directly go to live version or open the github repository.
+- HTML: added buttons to directly go to live version or open the GitHub repository.
 ### Changed
 - Descriptors: extended debug tests for accents, ASCII compatibility and capitalization for all entries (including AllMusic).
 - Descriptors: updated descriptors with multiple influences.
