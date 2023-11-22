@@ -19,15 +19,24 @@
 - Descriptors: added 'Chamber Music XL', Orchestral Music XL', 'Ballroom Music XL', 'Poetry-Secular Music XL', 'Choral-Spiritual Music XL' and 'Choral-Orchestral Music XL' classical music style clusters.
 - Descriptors: AllMusic support linking their genre/styles to the graph with substitutions.
 - HTML: added buttons to directly go to live version or open the GitHub repository.
+- Minor speed optimizations when looking for similar tracks.
 ### Changed
+- Pathfinder: updated A* pathfinder with altest version from [ngraph.path](https://github.com/anvaka/ngraph.path).
+- Pathfinder: getDistanceFromPath() has a new argument 'bJointGraph' which defaults to true, to indicate wether it should throw for disjoing graphs or not when there is no path.
+- Pathfinder: calcGraphDistance() has a new argument 'bJointGraph' which defaults to true, to indicate wether it should throw for disjoing graphs or not when there is no path.
+- Pathfinder: pathfinder method is now set only at calcGraphDistance(), so all debug and tests functions found at 'music_graph_xxx.js' and 'music_graph_test_xxx.js' no longer require setting the same pathfinder.
+- Pathfinder: calcGraphDistance() now ouputs {distance, influence, path} as result instead of an array. Since now the path is output, there is no longer need to reuse the pathfinder later for debugging/test purposes.
 - Descriptors: extended debug tests for accents, ASCII compatibility and capitalization for all entries (including AllMusic).
 - Descriptors: updated descriptors with multiple influences.
+- Debug: cleanup of debug routines, added comments and better logging.
 - HTML: minor UI tweaks.
 - HTML: moved HTML related scripts to its own folder.
 - HTML: updated jquery dependency.
 - Code cleanup.
 ### Removed
 ### Fixed
+- Pathfinder: fix long time bug on A* pathfinder which made it unusable. NBA* was used anyway so it doesn't affect at all current functionality.
+- Pathfinder: fix distances output by getDistanceFromPath() due to incorrect handling of multi-edge graphs on [ngraph.graph](https://github.com/anvaka/ngraph.graph), where only the first link found was used. As result new values could be lower in some cases.
 - Descriptors: cleanup of duplicates entries and other minor errors in substitutions, influences, etc.
 
 ## [2.0.0] - 2023-08-15
