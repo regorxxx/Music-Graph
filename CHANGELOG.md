@@ -15,7 +15,7 @@
 - Descriptors: improved debug routines to avoid situations where a substitution term doesn't exist in the graph.
 - Descriptors: improved debug tests to avoid duplicates entries in substitutions, influences, etc.
 - Descriptors: improved pathfinder routines to throw -with a descriptive error- when a path is not found due to some genre not being connected to the graph.
-- Descriptors: updated descriptors with multiple additions: Kuduro, Semba, Kizomba, African Ritual-Tribal, Afro-Latin Ritual-Tribal, Asian Ritual-Tribal, Aboriginal Folk, Pre-Columbian Ritual-Tribal, Mbalax, Melodic Techno-House, Kawaii Metal, Branle, Darksynth, Country Rap, Square Dance, Rodeo, Jug Band, K-Pop, J-Pop, Kayokyoku.
+- Descriptors: updated descriptors with multiple additions: Kuduro, Semba, Kizomba, African Ritual-Tribal, Afro-Latin Ritual-Tribal, Asian Ritual-Tribal, Aboriginal Folk, Pre-Columbian Ritual-Tribal, Mbalax, Melodic Techno-House, Kawaii Metal, Branle, Darksynth, Country Rap, Square Dance, Rodeo, Jug Band, K-Pop, J-Pop, Kayokyoku, Rumba Flamenca, Neoperreo','Emo Rap','Symphonic Rap','Glitch Hop','Cloud Rap','Grime' .
 - Descriptors: added 'Chamber Music XL', Orchestral Music XL', 'Ballroom Music XL', 'Poetry-Secular Music XL', 'Choral-Spiritual Music XL' and 'Choral-Orchestral Music XL' classical music style clusters.
 - Descriptors: AllMusic support linking their genre/styles to the graph with substitutions.
 - HTML: added buttons to directly go to live version or open the GitHub repository.
@@ -29,6 +29,7 @@
 - Descriptors: extended debug tests for accents, ASCII compatibility and capitalization for all entries (including AllMusic).
 - Descriptors: updated descriptors with multiple influences.
 - Debug: cleanup of debug routines, added comments about symmetries for distance calculation and better logging.
+- Debug: improved debug tests to avoid duplicates entries in substitutions, influences, etc.
 - HTML: minor UI tweaks.
 - HTML: moved HTML related scripts to its own folder.
 - HTML: updated jquery dependency.
