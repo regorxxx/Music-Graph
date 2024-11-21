@@ -1,5 +1,7 @@
 ﻿'use strict';
-//10/10/23
+//09/08/24
+
+/* global music_graph_descriptors:readable */
 
 /*
 	Helpers for the descriptors
@@ -8,33 +10,46 @@ music_graph_descriptors.asciify = function asciify(value) { // Used internally o
 	return (typeof str === 'string' ? value : String(value)).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\u0142/g, 'l');
 };
 
-music_graph_descriptors.getSubstitution = function getSubstitution(genreStyle) { // Doesn't check if the style exists at all at the graph
-	const pair = this.style_substitutions.find((pair) => {return pair[1].indexOf(this.asciify(genreStyle)) !== -1;});
-	return pair ? pair[0] : genreStyle;
+music_graph_descriptors.getSubstitutionCache = new Map();
+music_graph_descriptors.getSubstitution = function getSubstitution(genreStyle, bOmitNonNode = false) { // Doesn't check if the style exists at all at the graph
+	let substitution = music_graph_descriptors.getSubstitutionCache.get(genreStyle);
+	if (!substitution) {
+		const pair = this.style_substitutions.find((pair) => pair[1].indexOf(this.asciify(genreStyle)) !== -1);
+		substitution = pair	? pair[0] : genreStyle;
+		music_graph_descriptors.getSubstitutionCache.set(genreStyle, substitution);
+	}
+	if (bOmitNonNode && /(_supercluster|_supergenre|_cluster|_cluster| XL)$/i.test(substitution)) {
+		substitution = genreStyle;
+	}
+	return substitution;
 };
 
-music_graph_descriptors.replaceWithSubstitutions = function replaceWithSubstitutions(genreStyleArr) { // Doesn't work in arrays with duplicate items!
+music_graph_descriptors.replaceWithSubstitutions = function replaceWithSubstitutions(genreStyleArr, bOmitNonNode = false) {
+	// Doesn't work in arrays with duplicate items!
 	let left = genreStyleArr.length;
-	if (!left) {return [];}
-	const copy = [...genreStyleArr].map((tag) => {return this.asciify(tag);}); // ['House', 'Trance', 'Folk'] or ['House', 'Trance', 'Folk-Rock']
-	this.style_substitutions.forEach((pair) => {
-		if (!left) {return;}
+	if (!left) { return []; }
+	const nodeRegEx = /(_supercluster|_supergenre|_cluster|_cluster| XL)$/i;
+	const copy = Array.from(genreStyleArr, (tag) => this.asciify(tag)); // ['House', 'Trance', 'Folk'] or ['House', 'Trance', 'Folk-Rock']
+	for (const pair of this.style_substitutions) {
+		if (!left) {break;}
 		pair[1].forEach((sub) => {
 			const idx = copy.indexOf(sub);
-			if (idx !== -1) {copy.splice(idx, 1, pair[0]); left--;}
+			if (idx !== -1 && (!bOmitNonNode || !nodeRegEx.test(pair[0]))) {
+				copy.splice(idx, 1, pair[0]); left--;
+			}
 		});
-	});
+	}
 	return copy; // ['House_supergenre', 'Trance_supergenre', 'Folk Music_supercluster']
 };
 
 music_graph_descriptors.replaceWithSubstitutionsReverse = function replaceWithSubstitutionsReverse(genreStyleArr) { // Doesn't work in arrays with duplicate items!
 	let left = genreStyleArr.length;
-	if (!left) {return [];}
-	const copy = [...genreStyleArr].map((tag) => {return this.asciify(tag);}); // ['House_supergenre', 'Trance_supergenre', 'Folk Music_supercluster']
+	if (!left) { return []; }
+	const copy = Array.from(genreStyleArr, (tag) => this.asciify(tag)); // ['House_supergenre', 'Trance_supergenre', 'Folk Music_supercluster']
 	this.style_substitutions.forEach((pair) => {
-		if (!left) {return;}
+		if (!left) { return; }
 		const idx = copy.indexOf(pair[0]);
-		if (idx !== -1) {copy.splice(idx, 1, ...pair[1]); left--;} // Note this doesn't give back the original array, since all alternative terms are added
+		if (idx !== -1) { copy.splice(idx, 1, ...pair[1]); left--; } // Note this doesn't give back the original array, since all alternative terms are added
 	});
 	return copy; // ['House', 'Trance', 'Folk', 'Folk-Rock']
 };
@@ -42,7 +57,7 @@ music_graph_descriptors.replaceWithSubstitutionsReverse = function replaceWithSu
 music_graph_descriptors.getAntiInfluences = function getAntiInfluences(genreStyle) {
 	const dbleIdx = this.style_anti_influence.flat().indexOf(this.getSubstitution(genreStyle));
 	const idx = !(dbleIdx & 1) ? dbleIdx / 2 : -1; // -1 for odd indexes, halved for even values
-	return idx !== -1 ? this.style_anti_influence[idx][1] : [];
+	return idx !== -1 ? [...this.style_anti_influence[idx][1]] : [];
 };
 
 music_graph_descriptors.getConditionalAntiInfluences = function getConditionalAntiInfluences(genreStyle) {
@@ -53,7 +68,7 @@ music_graph_descriptors.getConditionalAntiInfluences = function getConditionalAn
 music_graph_descriptors.getInfluences = function getInfluences(genreStyle) {
 	const dbleIdx = this.style_primary_origin.flat().indexOf(this.getSubstitution(genreStyle));
 	const idx = !(dbleIdx & 1) ? dbleIdx / 2 : -1; // -1 for odd indexes, halved for even values
-	return idx !== -1 ? this.style_primary_origin[idx][1] : [];
+	return idx !== -1 ? [...this.style_primary_origin[idx][1]] : [];
 };
 
 music_graph_descriptors.nodeSet = null;
@@ -70,17 +85,17 @@ music_graph_descriptors.getNodeSet = function getNodeSet(bExtensive = true) {
 		return new Set(this.style_supergenre.flat(Infinity).filter((sg) => !sg.endsWith('_supergenre')));
 	}
 	return this.nodeSet;
-}
+};
 
 music_graph_descriptors.isOnGraph = function isOnGraph(genreStyleArr) {
-	const tags = new Set(genreStyleArr.flat(Infinity).map((tag) => {return this.asciify(tag);}));
+	const tags = new Set(genreStyleArr.flat(Infinity).map((tag) => { return this.asciify(tag); }));
 	// Compare (- user exclusions - graph exclusions)
 	const missing = tags.difference(this.getNodeSet());
 	return missing.size === 0;
 };
 
 music_graph_descriptors.filterArrWithGraph = function filterWithGraph(genreStyleArr) {
-	const tags = new Set(genreStyleArr.flat(Infinity).map((tag) => {return this.asciify(tag);}));
+	const tags = new Set(genreStyleArr.flat(Infinity).map((tag) => { return this.asciify(tag); }));
 	const present = tags.intersection(this.getNodeSet());
 	return [...present];
 };
