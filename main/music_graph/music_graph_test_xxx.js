@@ -1,48 +1,59 @@
 ﻿'use strict';
-//22/11/23
+//01/07/24
+
+/* exported testGraphNodes, testGraphNodeSets */
+
+/* global calcGraphDistance:readable, calcMeanDistanceV2:readable, getNodesFromPath:readable */
 
 // FOR TESTING: compares genre/style A to Band computes distance (similar to the main function for individual links)
 // Tip: Use html rendering to find relevant nodes to test. i.e. it's much easier to find distant nodes or possible paths.
 // Uses NBA pathFinder as default.
-function testGraph(mygraph) {
+function testGraphNodes(mygraph) {
 	const test = new FbProfiler('Test nodes');
 	let path = [];
 	let idpath = '';
 	let distance = Infinity;
 	let influence = 0;
 	[ // here both keys...
-		{name: '<------------------- Arbitrary node distance tests ------------------->'}, 
-		{from: 'Baroque',		to: 'Modernist'},
-		{from: 'New Age',		to: 'Modernist'},
-		{from: 'Hard Rock',		to: 'Folk-Rock'},
-		{from: 'Jazz Vocal',	to: 'Heavy Metal'},
-		{from: 'Grunge',		to: 'House'},
-		{from: 'Electronic',	to: 'Alt. Rock'},
-		{from: 'Electronic',	to: 'Blues Rock'},
-		{from: 'Blues',			to: 'Hip-Hop'},
-		{from: 'Trance',		to: 'House'},
-		{from: 'Americana',		to: 'Folk-Rock'},
-		{from: 'Trip Hop',		to: 'Chill-Out Downtempo'},
-		{from: 'Shoegaze',		to: 'Indie'},
-		{from: 'Blues Rock',	to: 'Gangsta'},
-		{from: 'Blues Rock',	to: 'Hip-Hop'},
-		{from: 'Blues Rock',	to: 'Blues'},
-		{from: 'Blues',			to: 'Blues'},
-		{from: 'Blues',			to: 'Heavy Metal'},
-		{from: 'Blues',			to: 'Glam Metal'},
-		{from: 'Blues',			to: 'Pop Metal'},
-		{from: 'Blues Rock',	to: 'Pop Metal'},
-		{from: 'Tuvan',			to: 'Desert Blues'},
-		{from: 'Anatolian Rock',to: 'Desert Blues'},
-		{from: 'Pagan Folk',	to: 'Americana'},
-		{from: 'Pagan Folk',	to: 'Tulsa Sound'},
-		{from: 'P-Funk',		to: 'Psychedelic Rock'},
+		{name: '<------------------- Arbitrary node distance tests ------------------->'},
+		{from: 'Baroque',			to: 'Modernist'},
+		{from: 'New Age',			to: 'Modernist'},
+		{from: 'Hard Rock',			to: 'Folk-Rock'},
+		{from: 'Jazz Vocal',		to: 'Heavy Metal'},
+		{from: 'Grunge',			to: 'House'},
+		{from: 'Electronic',		to: 'Alt. Rock'},
+		{from: 'Electronic',		to: 'Blues Rock'},
+		{from: 'Blues',				to: 'Hip-Hop'},
+		{from: 'Trance',			to: 'House'},
+		{from: 'Americana',			to: 'Folk-Rock'},
+		{from: 'Trip Hop',			to: 'Chill-Out Downtempo'},
+		{from: 'Shoegaze',			to: 'Indie'},
+		{from: 'Blues Rock',		to: 'Gangsta'},
+		{from: 'Blues Rock',		to: 'Hip-Hop'},
+		{from: 'Blues Rock',		to: 'Blues'},
+		{from: 'Blues',				to: 'Blues'},
+		{from: 'Blues',				to: 'Heavy Metal'},
+		{from: 'Blues',				to: 'Glam Metal'},
+		{from: 'Blues',				to: 'Pop Metal'},
+		{from: 'Blues Rock',		to: 'Pop Metal'},
+		{from: 'Tuvan',				to: 'Desert Blues'},
+		{from: 'Anatolian Rock',	to: 'Desert Blues'},
+		{from: 'Pagan Folk',		to: 'Americana'},
+		{from: 'Pagan Folk',		to: 'Tulsa Sound'},
+		{from: 'P-Funk',			to: 'Psychedelic Rock'},
+		{from: 'Emo Rap',			to: 'Sadcore'},
+		{from: 'Emo Rap',			to: 'Emo Rock'},
+		{from: 'Sadcore',			to: 'Nu Metal'},
+		{from: 'Emo Rap',			to: 'Jazz-Rap'},
+		{from: 'Emo Rap',			to: 'Cloud Rap'},
+		{from: 'Progressive House',	to: 'Progressive Trance'},
+		{from: 'Dixieland',			to: 'Modal Jazz'},
 	].forEach((o) => {
-		if (o.hasOwnProperty('name')) {console.log(o.name);}
-		if (o.hasOwnProperty('from') && o.hasOwnProperty('to')) {
+		if (Object.hasOwn(o, 'name')) {console.log(o.name);}
+		if (Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')) {
 			({distance, influence, path} = calcGraphDistance(mygraph, o.from, o.to, true));
 			idpath = getNodesFromPath(path);
-			console.log(idpath + '\t' + distance + ' (' + influence + ')');
+			console.log(idpath + '\t' + distance + ' (' + influence + ')'); // DEBUG
 		}
 	});
 	test.Print('', false);
@@ -53,11 +64,11 @@ function testGraph(mygraph) {
 // 		'[' ''$meta_sep(genre,''',' '')'', ''$meta_sep(style,''',' '')''' '']'
 // It will output things like this, ready to use here:
 // 		[ 'Electronic', 'Hip-Hop', 'Future Bass', 'Chill-Out Downtempo', 'Alt. Rap' ]
-function testGraphV2(mygraph) {
-	const test = new FbProfiler('Test node arrays');
+function testGraphNodeSets(mygraph) {
+	const test = new FbProfiler('Test node sets');
 	// EDIT HERE
 	[
-		{	name: '<------------------- Arbitrary set distance tests ------------------->'}, 
+		{	name: '<------------------- Arbitrary set distance tests ------------------->'},
 		{
 			from:	[ 'Electronic', 'Hip-Hop', 'Future Bass', 'Chill-Out Downtempo', 'Alt. Rap' ],
 			to:		[ 'Hip-Hop', 'Electronic', 'Indie', 'Ambiental', 'Female Vocal', 'Trip Hop', 'Alt. Rap' ]
@@ -146,8 +157,12 @@ function testGraphV2(mygraph) {
 			from:	[ 'Blues', 'Blues Rock', 'Modern Electric Blues', 'Electric Blues' ],
 			to:		[ 'Hard Rock', 'Heavy Metal', 'Glam Metal', 'Pop Metal' ]
 		},
+		{
+			from:	[ 'Jazz', 'Dixieland' ],
+			to:		[ 'Jazz', 'Modal Jazz' ]
+		},
 		// Exchanging one genre from the Reference with one from the Target outputs different distance
-		{	name: '<------------------- Exchange asymmetry ------------------->'}, 
+		{	name: '<------------------- Exchange asymmetry ------------------->'},
 		{
 			from:	[ 'Hard Rock', 'Heavy Metal', 'Classic Rock', 'Doom Metal', 'Proto-Metal' ],
 			to:		[ 'Psychedelic Rock', 'Turkish', 'Anatolian Rock']
@@ -183,11 +198,11 @@ function testGraphV2(mygraph) {
 			to:		[ 'Psychedelic Rock', 'Turkish', 'Anatolian Rock' ]
 		},
 	].forEach((o) => {
-		if (o.hasOwnProperty('name')) {console.log(o.name);}
-		if (o.hasOwnProperty('from') && o.hasOwnProperty('to')) {
-			console.log(o.from + ' <- ' + o.to + ' = ' + calcMeanDistanceV2(mygraph, o.from, o.to));
+		if (Object.hasOwn(o, 'name')) {console.log(o.name);}
+		if (Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')) {
+			console.log(o.from + ' <- ' + o.to + ' = ' + calcMeanDistanceV2(mygraph, o.from, o.to)); // DEBUG
 		}
 	});
-	
+
 	test.Print('', false);
 }
