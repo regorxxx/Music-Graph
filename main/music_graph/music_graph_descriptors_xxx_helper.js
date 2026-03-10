@@ -1,5 +1,5 @@
 ﻿'use strict';
-//09/08/24
+//06/08/25
 
 /* global music_graph_descriptors:readable */
 
@@ -14,8 +14,8 @@ music_graph_descriptors.getSubstitutionCache = new Map();
 music_graph_descriptors.getSubstitution = function getSubstitution(genreStyle, bOmitNonNode = false) { // Doesn't check if the style exists at all at the graph
 	let substitution = music_graph_descriptors.getSubstitutionCache.get(genreStyle);
 	if (!substitution) {
-		const pair = this.style_substitutions.find((pair) => pair[1].indexOf(this.asciify(genreStyle)) !== -1);
-		substitution = pair	? pair[0] : genreStyle;
+		const pair = this.style_substitutions.find((pair) => pair[1].includes(this.asciify(genreStyle)));
+		substitution = pair ? pair[0] : genreStyle;
 		music_graph_descriptors.getSubstitutionCache.set(genreStyle, substitution);
 	}
 	if (bOmitNonNode && /(_supercluster|_supergenre|_cluster|_cluster| XL)$/i.test(substitution)) {
@@ -31,7 +31,7 @@ music_graph_descriptors.replaceWithSubstitutions = function replaceWithSubstitut
 	const nodeRegEx = /(_supercluster|_supergenre|_cluster|_cluster| XL)$/i;
 	const copy = Array.from(genreStyleArr, (tag) => this.asciify(tag)); // ['House', 'Trance', 'Folk'] or ['House', 'Trance', 'Folk-Rock']
 	for (const pair of this.style_substitutions) {
-		if (!left) {break;}
+		if (!left) { break; }
 		pair[1].forEach((sub) => {
 			const idx = copy.indexOf(sub);
 			if (idx !== -1 && (!bOmitNonNode || !nodeRegEx.test(pair[0]))) {
@@ -54,9 +54,43 @@ music_graph_descriptors.replaceWithSubstitutionsReverse = function replaceWithSu
 	return copy; // ['House', 'Trance', 'Folk', 'Folk-Rock']
 };
 
+music_graph_descriptors.replaceWithAlternativeTerms = function replaceWithAlternativeTerms(genreStyleArr, bOmitNonNode = false, bFlat = true) {
+	// ['House', 'Trance', 'Folk', 'Folk-Rock']
+	const nodeRegEx = /(_supercluster|_supergenre|_cluster|_cluster| XL)$/i;
+	const copy = Array.from(genreStyleArr, (tag) => this.asciify(tag))
+		.map((tag) => {
+			const pair = this.style_substitutions.find((pair) => pair[1].includes(tag) || pair[0] === tag);
+			return !pair
+				? [tag]
+				: bOmitNonNode
+					? [...new Set([tag, pair[0], ...pair[1]])].filter((tag) => !nodeRegEx.test(tag))
+					: [...new Set([tag, pair[0], ...pair[1]])];
+		});
+	return bFlat
+		? [...new Set(copy.flat(Infinity))] // ['House', 'House_supergenre', 'Folk', 'Folk-Rock', 'Folk Music_supercluster',]
+		: copy; // [['House', 'House_supergenre'], ['Folk', 'Folk Music_supercluster', 'Folk-Rock'], ['Folk-Rock', 'Folk Music_supercluster', 'Folk']]
+};
+
+music_graph_descriptors.filterDuplicatedSubstitutions = function filterDuplicatedSubstitutions(genreStyleArr) { // Doesn't work in arrays with duplicate items!
+	if (!genreStyleArr.length) { return []; }
+	const copy = new Set(genreStyleArr.map((tag) => this.asciify(tag))); // ['Tishoumaren', 'Desert Blues', 'Assouf']
+	this.style_substitutions.forEach((pair) => {
+		if (copy.has(pair[0])) {
+			pair[1].forEach((g) => copy.delete(g));
+		} else if (pair[1].some((g) => copy.has(g))) {
+			for (let genre of pair[1]) {
+				if (copy.has(genre)) {
+					pair[1].forEach((g) => genre !== g && copy.delete(g));
+				}
+			}
+		}
+	});
+	return [...copy]; // ['Tishoumaren']
+};
+
 music_graph_descriptors.getAntiInfluences = function getAntiInfluences(genreStyle) {
-	const dbleIdx = this.style_anti_influence.flat().indexOf(this.getSubstitution(genreStyle));
-	const idx = !(dbleIdx & 1) ? dbleIdx / 2 : -1; // -1 for odd indexes, halved for even values
+	const doubleIdx = this.style_anti_influence.flat().indexOf(this.getSubstitution(genreStyle));
+	const idx = !(doubleIdx & 1) ? doubleIdx / 2 : -1; // -1 for odd indexes, halved for even values
 	return idx !== -1 ? [...this.style_anti_influence[idx][1]] : [];
 };
 
@@ -66,8 +100,8 @@ music_graph_descriptors.getConditionalAntiInfluences = function getConditionalAn
 };
 
 music_graph_descriptors.getInfluences = function getInfluences(genreStyle) {
-	const dbleIdx = this.style_primary_origin.flat().indexOf(this.getSubstitution(genreStyle));
-	const idx = !(dbleIdx & 1) ? dbleIdx / 2 : -1; // -1 for odd indexes, halved for even values
+	const doubleIdx = this.style_primary_origin.flat().indexOf(this.getSubstitution(genreStyle));
+	const idx = !(doubleIdx & 1) ? doubleIdx / 2 : -1; // -1 for odd indexes, halved for even values
 	return idx !== -1 ? [...this.style_primary_origin[idx][1]] : [];
 };
 
