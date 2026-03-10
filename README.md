@@ -21,8 +21,8 @@ Note this graph is an ongoing project which may take an undefined amount of time
 ## Real World Implementation
 As is, the provided files serve as a framework for other projects and as a way to render the relations amongst the different musical genres and styles. But it can be used to compute the distance (similarity) between 2 points (genres) or the mean distance (total similarity) between 2 sets of points (2 sets of tags). Therefore it allows to compare directly a reference track against a library, using their tags, and find the most similar tracks (*). You can find such examples in these foobar2000's scripts:
 
- 1. [Search-by-Distance-SMP](https://github.com/regorxxx/Search-by-Distance-SMP): creates playlists with similar tracks comparing their set of genres and styles among other things. 'GRAPH' method. 
- 2. [Playlist-Tools-SMP](https://github.com/regorxxx/Playlist-Tools-SMP): a collection of tools which include the previous one and multiple implementations via menus (similar genres, only influences, etc.).
+ 1. [Search-by-Distance-SMP](https://github.com/regorxxx/Search-by-Distance-SMP): creates playlists with similar tracks comparing their set of genres and styles among other things. 'GRAPH' method. (now included below) 
+ 2. [Infinity-Tools-SMP](https://github.com/regorxxx/Infinity-Tools-SMP): a collection of tools which include the previous one and multiple implementations via menus (similar genres, only influences, etc.).
 
 ![playlist_tools_menu_04](https://user-images.githubusercontent.com/83307074/116748155-8d211c00-a9ee-11eb-8888-308a12c41b92.gif)
 
