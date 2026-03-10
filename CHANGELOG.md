@@ -28,11 +28,11 @@
 - HTML: added buttons to directly go to live version or open the GitHub repository.
 - Minor speed optimizations when looking for similar tracks.
 ### Changed
-- Pathfinder: updated A* pathfinder with altest version from [ngraph.path](https://github.com/anvaka/ngraph.path).
+- Pathfinder: updated A* pathfinder with latest version from [ngraph.path](https://github.com/anvaka/ngraph.path).
 - Pathfinder: getDistanceFromPath() has a new argument 'bJointGraph' which defaults to true, to indicate wether it should throw for disjoing graphs or not when there is no path.
 - Pathfinder: calcGraphDistance() has a new argument 'bJointGraph' which defaults to true, to indicate wether it should throw for disjoing graphs or not when there is no path.
 - Pathfinder: pathfinder method is now set only at calcGraphDistance(), so all debug and tests functions found at 'music_graph_xxx.js' and 'music_graph_test_xxx.js' no longer require setting the same pathfinder.
-- Pathfinder: calcGraphDistance() now ouputs {distance, influence, path} as result instead of an array. Since now the path is output, there is no longer need to reuse the pathfinder later for debugging/test purposes.
+- Pathfinder: calcGraphDistance() now outputs {distance, influence, path} as result instead of an array. Since now the path is output, there is no longer need to reuse the pathfinder later for debugging/test purposes.
 - Descriptors: extended debug tests for accents, ASCII compatibility and capitalization for all entries (including AllMusic).
 - Descriptors: updated descriptors with multiple influences.
 - Debug: cleanup of debug routines, added comments about symmetries for distance calculation and better logging.
