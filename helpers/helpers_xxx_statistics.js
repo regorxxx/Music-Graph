@@ -1,5 +1,5 @@
 ﻿'use strict';
-//11/11/24
+//07/08/25
 
 /* exported zScoreToProbability, probabilityToZscore, zScoreToCDF, calcStatistics */
 
@@ -51,36 +51,30 @@ function zScoreToProbability(z) {
 }
 
 
-/*  CRITZ  --  Compute critical normal z value to
-			   produce given p.  We just do a bisection
-			   search for a value within CHI_EPSILON,
-			   relying on the monotonicity of pochisq().  */
+/* Compute critical normal z value to produce given p.  We just do a bisection search for a value within CHI_EPSILON, relying on the monotonicity of pochisq().  */
 
 function probabilityToZscore(p) {
 	const Z_MAX = 6;
 	const Z_EPSILON = 1e-6;     /* Accuracy of z approximation */
-	let minz = -Z_MAX;
-	let maxz = Z_MAX;
-	let zval = 0.0;
-	let pval;
+	let minZ = -Z_MAX;
+	let maxZ = Z_MAX;
+	let zVal = 0.0;
+	let pVal;
 	if (p < 0) { p = 0.0; }
 	if (p > 1) { p = 1.0; }
-	while ((maxz - minz) > Z_EPSILON) {
-		pval = zScoreToProbability(zval);
-		if (pval > p) {
-			maxz = zval;
+	while ((maxZ - minZ) > Z_EPSILON) {
+		pVal = zScoreToProbability(zVal);
+		if (pVal > p) {
+			maxZ = zVal;
 		} else {
-			minz = zval;
+			minZ = zVal;
 		}
-		zval = (maxz + minz) * 0.5;
+		zVal = (maxZ + minZ) * 0.5;
 	}
-	return (zval);
+	return (zVal);
 }
 
-/*  cdfz  --   Compute Cumulative Distribution Function
-			   of the Standard Normal Distribution for
-			   a given Z. Values from table. */
-
+/*  Compute Cumulative Distribution Function of the Standard Normal Distribution for a given Z. Values from table. */
 function zScoreToCDF(z, bSym = true) {
 	const Z_MAX = 4.09;
 	if (z > Z_MAX) { z = Z_MAX; }
@@ -158,22 +152,22 @@ function calcStatistics(dataArr, options = { bClampPopRange: true }) {
 		const freqMap = new Map();
 		copy.forEach((val) => {
 			const freq = freqMap.get(val);
-			if (typeof freq === 'undefined') {freqMap.set(val, 1);}
-			else {freqMap.set(val, freq + 1);}
+			if (typeof freq === 'undefined') { freqMap.set(val, 1); }
+			else { freqMap.set(val, freq + 1); }
 		});
-		const points = [...freqMap].map((pair) => {return {key: pair[0], val: Math.round(pair[1])};});
+		const points = [...freqMap].map((pair) => { return { key: pair[0], val: Math.round(pair[1]) }; });
 		const stats = calcStatistics([...freqMap.values()], options);
 		['max', 'mean', 'median', 'mode', 'min'].forEach((key) => {
 			const ref = Math.round(stats[key]);
-			if (key === 'max') {points.sort((a, b) => b.val - a.val);} // Sorting allows to break earlier
-			else if (key === 'min') {points.reverse();}
+			if (key === 'max') { points.sort((a, b) => b.val - a.val); } // Sorting allows to break earlier
+			else if (key === 'min') { points.reverse(); }
 			stats[key + 'Keys'] = [];
 			let bFound = false;
 			for (const p in points) {
-				if (p.val === ref) {stats[key + 'Points'].push(p); bFound = true;}
-				else if (bFound) {break;}
+				if (p.val === ref) { stats[key + 'Points'].push(p); bFound = true; }
+				else if (bFound) { break; }
 			}
-			if (key === 'max' || key === 'min') {stats[key + '10Points'] = points.slice(0, 9).map((p) => p);}
+			if (key === 'max' || key === 'min') { stats[key + '10Points'] = points.slice(0, 9).map((p) => p); }
 		});
 		return stats;
 	}
@@ -208,8 +202,8 @@ function calcStatistics(dataArr, options = { bClampPopRange: true }) {
 	}
 	const binSize = 1;
 	const histogram = calcHistogram(dataArr, binSize, statistics.max, statistics.min);
-	const masxFreq = Math.max(...histogram);
-	statistics.mode = { value: statistics.min + histogram.indexOf(masxFreq) * binSize, frequency: masxFreq };
+	const maxFreq = Math.max(...histogram);
+	statistics.mode = { value: statistics.min + histogram.indexOf(maxFreq) * binSize, frequency: maxFreq };
 	{
 		let i = 0, acumFreq = statistics.count / 2;
 		while (true) { // eslint-disable-line no-constant-condition
