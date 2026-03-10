@@ -1,5 +1,5 @@
 ﻿'use strict';
-//31/05/24
+//31/07/25
 
 /* global music_graph_descriptors:readable, SearchByDistance_panelProperties:readable */
 
@@ -9,7 +9,7 @@ const music_graph_descriptors_allmusic = {
 	/* 	CODES:
 		*	->	Already included items on the graph (are checked against it and reported if not found)
 		-	->	Items which don't have an alternative term (reported as missing)
-		0	->	Items which are meant to be filtered (added to the exclusions s: [filter)
+		0	->	Items which are meant to be filtered (added to the exclusions): [filter)
 	*/
 	/* Classical */
 			['Avant-Garde Classical'			,	['Avant-Garde Music'				]],
@@ -17,18 +17,18 @@ const music_graph_descriptors_allmusic = {
 			['Orchestral Music XL'				,	['Band Music'						]],
 			['Chamber Music XL'					,	['Chamber Music'					]],
 			['*'								,	['Choral'							]],
-			['0'								,	['Classical Crossover'				]],
+			['*'								,	['Classical Crossover'				]],
 			['*'								,	['Concerto'							]],
-			['0'								,	['Electronic/Computer Music'		]],
-			['0'								,	['Fight Songs'						]],
-			['0'								,	['Film Score'						]],
+			['Electronic Music_supercluster'	,	['Electronic/Computer Music'		]],
+			['March'							,	['Fight Songs'						]],
+			['Ambient Classical'				,	['Film Score'						]],
 			['0'								,	['Keyboard'							]],
 			['March'							,	['Marches'							]],
 			['Orchestral Music XL'				,	['Military'							]],
 			['0'								,	['Miscellaneous (Classical)'		]],
 			['*'								,	['Opera'							]],
 			['Orchestral Music XL'				,	['Orchestral'						]],
-			['0'								,	['Show/Musical'						]],
+			['Musical'							,	['Show/Musical'						]],
 			['*'								,	['Symphony'							]],
 			['Poetry-Secular Music XL'			,	['Vocal Music'						]],
 	/* Country */
@@ -37,10 +37,10 @@ const music_graph_descriptors_allmusic = {
 			['Alt. Country'						,	['Alt-Country'						]],
 			['*'								,	['Americana'						]],
 		/* Contemporary Country */
-			['0'								,	['Bro-Country'						]],
+			['Country Pop'						,	['Bro-Country'						]],
 			['Bluegrass'						,	['Contemporary Bluegrass'			]],
 			['*'								,	['Contemporary Country'				]],
-			['*'								,	['Country Rap'						]], // https://www.allmusic.com/style/country-rap-ma0000013521
+			['*'								,	['Country Rap'						]],
 			['Neo-Traditional Country'			,	['Neo-Traditionalist Country'		]],
 			['Neo-Traditional Country'			,	['New Traditionalist'				]],
 			['Outlaw Country'					,	['Red Dirt'							]], // https://www.allmusic.com/style/red-dirt-ma0000013522
@@ -57,7 +57,7 @@ const music_graph_descriptors_allmusic = {
 			['*'								,	['Outlaw Country'					]],
 			['*'								,	['Progressive Bluegrass'			]],
 			['Outlaw Country'					,	['Progressive Country'				]], // https://www.allmusic.com/style/progressive-country-ma0000002796
-			['*'								,	['Rodeo'							]], // https://www.allmusic.com/style/rodeo-ma0000012323
+			['*'								,	['Rodeo'							]],
 		/* Traditional Country */
 			['*'								,	['Bluegrass'						]],
 			['Bluegrass'						,	['Bluegrass-Gospel'					]],
@@ -67,9 +67,9 @@ const music_graph_descriptors_allmusic = {
 			['0'								,	['Cowboy'							]],
 			['Traditional Country'				,	['Early Country'					]],
 			['Traditional Country'				,	['Instrumental Country'				]],
-			['*'								,	['Jug Band'							]], // https://www.allmusic.com/style/jug-band-ma0000012351
+			['*'								,	['Jug Band'							]],
 			['*'								,	['Old-Timey'						]],
-			['*'								,	['Square Dance'						]], // https://www.allmusic.com/style/square-dance-ma0000011873
+			['*'								,	['Square Dance'						]],
 			['-'								,	['String Bands'						]], // https://www.allmusic.com/style/string-bands-ma0000002880
 			['Bluegrass'						,	['Traditional Bluegrass'			]],
 			['*'								,	['Traditional Country'				]],
@@ -125,7 +125,7 @@ const music_graph_descriptors_allmusic = {
 			['*'								,	['Microhouse'						]],
 			['*'								,	['Progressive House'				]],
 			['Tech House'						,	['Tech-House'						]],
-			['-'								,	['Tribal House'						]],
+			['*'								,	['Tribal House'						]],
 			['*'								,	['UK Garage'						]],
 		/* Jungle / Drum'n'Bass */
 			['Drum & Bass_supergenre'			,	['Jungle / Drum\'n\'Bass'			]],
@@ -138,20 +138,20 @@ const music_graph_descriptors_allmusic = {
 			['-'								,	['Industrial Drum\'n\'Bass'			]],
 		/* Techno */
 			['*'								,	['Techno'							]],
-			['-'								,	['Acid Techno'						]],
+			['*'								,	['Acid Techno'						]],
 			['*'								,	['Ambient Techno'					]],
 			['*'								,	['Detroit Techno'					]],
 			['*'								,	['Electro'							]],
 			['Nu Jazz'							,	['Electro-Jazz'						]],
 			['-'								,	['Electro-Techno'					]],
-			['-'								,	['Experimental Electro'				]],
-			['-'								,	['Experimental Techno'				]],
-			['-'								,	['Gabba'							]],
+			['Electro'							,	['Experimental Electro'				]],
+			['Techno'							,	['Experimental Techno'				]],
+			['Gabber'							,	['Gabba'							]],
 			['*'								,	['Happy Hardcore'					]],
 			['*'								,	['Hardcore Techno'					]],
 			['*'								,	['Minimal Techno'					]],
 			['0'								,	['Neo-Electro'						]],
-			['-'								,	['Rave'								]],
+			['Rave XL'							,	['Rave'								]],
 			['-'								,	['Techno Bass'						]],
 			['-'								,	['Techno-Dub'						]],
 		/* Trance */
@@ -304,13 +304,13 @@ const music_graph_descriptors_allmusic = {
 			['0'								,	['Puerto Rican Traditions'			]],
 			['-'								,	['Trova'							]],
 		/* Mexican Traditions */
-			['0'								,	['Mexican Traditions'				]],
+			['Mexican Folk'						,	['Mexican Traditions'				]],
 			['0'								,	['Alterna Movimiento'				]],
-			['0'								,	['Alternative Corridos'				]],
+			['Corrido'							,	['Alternative Corridos'				]],
 			['0'								,	['Banda'							]],
 			['-'								,	['Bomba'							]],
-			['-'								,	['Conjunto'							]],
-			['-'								,	['Corrido'							]],
+			['Mexican Folk'						,	['Conjunto'							]],
+			['*'								,	['Corrido'							]],
 			['*'								,	['Cumbia'							]],
 			['-'								,	['Duranguense'						]],
 			['Cumbia'							,	['Electro-Cumbia'					]],
@@ -398,14 +398,14 @@ const music_graph_descriptors_allmusic = {
 			['0'								,	['Italian Rap'						]],
 			['0'								,	['Japanese Rap'						]],
 			['0'								,	['Korean Rap'						]],
-			['0'								,	['UK Drill'							]],
+			['Drill'							,	['UK Drill'							]],
 		/* Pop-Rap */
 			['Pop Rap'							,	['Pop-Rap'							]],
 			['Miami Bass'						,	['Bass Music'						]],
 			['0'								,	['Bay Area Rap'						]],
 			['0'								,	['Contemporary Rap'					]],
 			['South Coast'						,	['Dirty South'						]],
-			['-'								,	['Drill'							]],
+			['*'								,	['Drill'							]],
 			['Psychedelic Rap'					,	['G-Funk'							]],
 			['Gangsta'							,	['Gangsta Rap'						]],
 			['0'								,	['Horror Rap'						]],
@@ -428,8 +428,8 @@ const music_graph_descriptors_allmusic = {
 		/* African Traditions */
 			['0'								,	['African Traditions'				]],
 			['African Folk_supergenre'			,	['African Folk'						]],
-			['0'								,	['Afro-beat'						]],
-			['0'								,	['Afro-Pop'							]],
+			['Afrobeat'							,	['Afro-beat'						]],
+			['Afro-Rock'						,	['Afro-Pop'							]],
 			['*'								,	['Desert Blues'						]],
 		/* Asian Traditions */
 			['0'								,	['Asian Traditions'					]],
@@ -1297,20 +1297,20 @@ if (Object.keys(music_graph_descriptors_allmusic).length) {
 			if (subs.size) {
 				const error = subs.difference(parent.filterSetWithGraph(subs));
 				if (error.size) {
-					console.log('Items flagged as substitution but missing on graph: ' + error.size + '\n\t' + [...error].join(', '));
+					console.log('Items flagged as substitution but missing on graph: ' + error.size + '\n\t ' + [...error].join(', '));
 				}
 			}
 			if (noAlt.size) {
 				console.log('No alternative items on graph: ' + noAlt.size + '\n\t' + [...noAlt].join(', '));
 				const noAltPresent = noAlt.intersection(parent.filterSetWithGraph(noAlt));
 				if (noAltPresent.size) {
-					console.log('Items flagged with no alternative but present on graph: ' + noAltPresent.size + '\\n\t' + [...noAltPresent].join(', '));
+					console.log('Items flagged with no alternative but present on graph: ' + noAltPresent.size + '\n\t ' + [...noAltPresent].join(', '));
 				}
 			}
 			if (allm.map_distance_exclusions.size) {
 				const exclusions = allm.map_distance_exclusions.intersection(parent.filterSetWithGraph(allm.map_distance_exclusions));
 				if (exclusions.size) {
-					console.log('Items flagged to filter but present on graph: ' + exclusions.size + '\n\t' + [...exclusions].join(', '));
+					console.log('Items flagged to filter but present on graph: ' + exclusions.size + '\n\t ' + [...exclusions].join(', '));
 				}
 			}
 		}
