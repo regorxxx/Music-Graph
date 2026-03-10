@@ -1,7 +1,7 @@
 ﻿'use strict';
-//28/12/23
+//01/12/25
 
-/* exported capitalize, capitalizeAll */
+/* exported capitalize, capitalizeAll, strNumCollator */
 /* global Viva:readable */
 
 /*
@@ -73,3 +73,5 @@ if (!Viva.Graph.graph().getNonOrientedLink) {
 		return graph;
 	};
 }
+
+const strNumCollator = new Intl.Collator(void (0), { sensitivity: 'base', numeric: true });
