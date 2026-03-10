@@ -2,6 +2,7 @@
 
 ## [Table of Contents]
 - [Unreleased](#unreleased)
+- [3.0.0](#300---2026-03-10)
 - [2.0.0](#200---2023-08-15)
 - [1.2.0](#120---2022-04-13)
 - [1.1.0](#110---2021-12-23)
@@ -10,6 +11,12 @@
 - [1.0.0](#100---2021-05-02)
 
 ## [Unreleased][]
+### Added
+### Changed
+### Removed
+### Fixed
+
+## [3.0.0] - 2026-03-10
 ### Added
 - Cultural Regions: complete integration of cultural regions; all styles on graph are now added.
 - Descriptors: improved debug routines to avoid situations where a substitution term doesn't exist in the graph.
@@ -110,7 +117,8 @@
 ### Removed
 ### Fixed
 
-[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/regorxxx/Music-Graph/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/regorxxx/Music-Graph/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/regorxxx/Music-Graph/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/regorxxx/Music-Graph/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/regorxxx/Music-Graph/compare/v1.0.2...v1.1.0
