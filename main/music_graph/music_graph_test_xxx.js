@@ -1,5 +1,5 @@
 ﻿'use strict';
-//12/08/25
+//29/05/26
 
 /* exported testGraphNodes, testGraphNodeSets, testGraphNodeSetsWithPath, testGraphCulture */
 
@@ -48,7 +48,7 @@ function testGraphNodes(myGraph, influenceMethod = 'adjacentNodes') {
 		{ from: 'Progressive House', to: 'Progressive Trance' },
 		{ from: 'Dixieland', to: 'Modal Jazz' },
 	].map((o, i) => {
-		if (Object.hasOwn(o, 'name')) { return (i !== 0 ? '\n' : '') + o.name; }
+		if (Object.hasOwn(o, 'name')) { return (i === 0 ? '' : '\n') + o.name; }
 		if (Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')) {
 			({ distance, influence, path } = calcGraphDistance(myGraph, o.from, o.to, influenceMethod));
 			return getNodesFromPath(path) + '\t' + distance + ' (' + influence + ')';
@@ -197,7 +197,7 @@ function testGraphNodeSets(myGraph, influenceMethod = 'adjacentNodes') {
 			from: ['World', 'African', 'Blues', 'Folk', 'Malian Folk', 'Desert Blues'],
 			to: ['Psychedelic Rock', 'Turkish', 'Anatolian Rock']
 		},
-	].map((o, i) => (Object.hasOwn(o, 'name') ? (i !== 0 ? '\n' : '') + o.name : '') + (Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')
+	].map((o, i) => (Object.hasOwn(o, 'name') ? (i === 0 ? '' : '\n') + o.name : '') + (Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')
 		? o.from + ' <- ' + o.to + ' = ' + calcMeanDistanceV2(myGraph, o.from, o.to, influenceMethod)
 		: '')
 	);
@@ -221,7 +221,7 @@ function testGraphNodeSetsWithPath(myGraph, influenceMethod = 'adjacentNodes') {
 			to: ['Rock', 'Blues', 'Classic Rock', 'Blues Rock', 'Beat Music', 'Electric Blues']
 		},
 	].map((o, i) => {
-		if (Object.hasOwn(o, 'name')) { return (i !== 0 ? '\n' : '') + o.name; }
+		if (Object.hasOwn(o, 'name')) { return (i === 0 ? '' : '\n') + o.name; }
 		if (Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')) {
 			let text = Object.hasOwn(o, 'from') && Object.hasOwn(o, 'to')
 				? o.from + ' <- ' + o.to + ' = ' + calcMeanDistanceV2(myGraph, o.from, o.to, influenceMethod)

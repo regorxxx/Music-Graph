@@ -636,27 +636,27 @@ const music_graph_descriptors = {
 		'Alt. Rock and Hardcore','Blues and Gospel','Classic and Orchestral','Electronic and Synth','Folk and Folk-Rock','Hip-Hop and Reggae','Jazz and Lounge','Metal and Hard Rock','Pop and Rock','Soul and Funk','Other styles'
 	],
 	getStyleGroup: (style_cluster) => {
-		if (/(-| |^)(metal|stoner|doom)(-| |$)/i.test(style_cluster)) {
+		if (/(?:-| |^)(?:metal|stoner|doom)(?:-| |$)/i.test(style_cluster)) {
 			return 'Metal and Hard Rock';
-		} else if (/(-| |^)(folk|folk-rock|americana|country|afro)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:folk|folk-rock|americana|country|afro)(?:-| |$)/i.test(style_cluster)) {
 			return 'Folk and Folk-Rock';
-		} else if (/(-| |^)(urban|rap|reggae|loungetronica|jamaican)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:urban|rap|reggae|loungetronica|jamaican)(?:-| |$)/i.test(style_cluster)) {
 			return 'Hip-Hop and Reggae';
-		} else if (/(-| |^)(punk)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:punk)(?:-| |$)/i.test(style_cluster)) {
 			return 'Alt. Rock and Hardcore';
-		} else if (/(-| |^)(electro|electronic|dance|house|rave|gabber|bass|wave|techno|trance|breakbeat|downtempo|hardcore)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:electro|electronic|dance|house|rave|gabber|bass|wave|techno|trance|breakbeat|downtempo|hardcore)(?:-| |$)/i.test(style_cluster)) {
 			return 'Electronic and Synth';
-		} else if (/(-| |^)(gothic|progressive|grunge|gaze|industrial|alternative|emo)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:gothic|progressive|grunge|gaze|industrial|alternative|emo)(?:-| |$)/i.test(style_cluster)) {
 			return 'Alt. Rock and Hardcore';
-		} else if (/(-| |^)(soul|funk|disco|r&b)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:soul|funk|disco|r&b)(?:-| |$)/i.test(style_cluster)) {
 			return 'Soul and Funk';
-		} else if (/(-| |^)(choral|ballroom|orchestral|Chamber|secular|spiritual|classical)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:choral|ballroom|orchestral|Chamber|secular|spiritual|classical)(?:-| |$)/i.test(style_cluster)) {
 			return 'Classic and Orchestral';
-		} else if (/(-| |^)(pop|rock|contemporary)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:pop|rock|contemporary)(?:-| |$)/i.test(style_cluster)) {
 			return 'Pop and Rock';
-		} else if (/(-| |^)(jazz|lounge|easy)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:jazz|lounge|easy)(?:-| |$)/i.test(style_cluster)) {
 			return 'Jazz and Lounge';
-		} else if (/(-| |^)(blues|gospel)(-| |$)/i.test(style_cluster)) {
+		} else if (/(?:-| |^)(?:blues|gospel)(?:-| |$)/i.test(style_cluster)) {
 			return 'Blues and Gospel';
 		} else {
 			return 'Other styles';

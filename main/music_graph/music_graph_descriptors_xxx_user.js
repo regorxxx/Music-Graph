@@ -1,5 +1,5 @@
 ﻿'use strict';
-//28/12/23
+//29/05/26
 
 /*
 	This is a sample file to show how to replace/add/delete genre and styles
@@ -95,11 +95,11 @@ if (Object.keys(music_graph_descriptors_user).length) {
 			newDesc[key].forEach((nodeArray, i) => {
 				// [ [A,[values]], ..., [[X,[values]], ... ] index of X within main array? Using flat() length gets doubled.
 				const doubleIndex = oldDesc[key].flat().indexOf(nodeArray[0]);
-				const index = !(doubleIndex & 1) ? doubleIndex / 2 : -1; // -1 for odd indexes, halved for even values
-				if (index !== -1) { // If present on both files, replace with new value
-					oldDesc[key][index] = newDesc[key][i]; // Note replacing [A,[B,C]] with [A,[]] is the same than deleting the line, since no link will be created. And only links are added to the graph (not individual nodes).
-				} else { // Concat
+				const index = (doubleIndex & 1) ? -1 : doubleIndex / 2; // -1 for odd indexes, halved for even values
+				if (index === -1) { // Concat
 					oldDesc[key].push(newDesc[key][i]);
+				} else { // If present on both files, replace with new value
+					oldDesc[key][index] = newDesc[key][i]; // Note replacing [A,[B,C]] with [A,[]] is the same than deleting the line, since no link will be created. And only links are added to the graph (not individual nodes).
 				}
 			});
 		} else if (oldDesc[key].constructor === Set && newDesc[key].constructor === Set) { // Merge sets and delete elements on both

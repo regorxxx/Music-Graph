@@ -1,11 +1,16 @@
 ﻿'use strict';
-//08/10/25
+//29/05/26
 
 /* exported musicGraphForDrawing, graphDebug, graphStatistics */
 
 // Required since this script is loaded on browsers for drawing too!
 
-if (typeof include !== 'undefined') { // On foobar2000
+if (typeof include === 'undefined') { // On browsers
+	// vivagraph.min.js must be loaded within HTML
+	// music_graph_descriptors_xxx (and the user set file) too!
+	console.log('\'music_graph_xxx\' script is being used on browser. Omitting \'include\' clause.');
+	/* global Viva:readable */
+} else { // On foobar2000
 	include('..\\..\\helpers-external\\ngraph\\ngraph.graph.js');
 	/* global createGraph:readable */
 	include('music_graph_descriptors_xxx.js');
@@ -29,11 +34,6 @@ if (typeof include !== 'undefined') { // On foobar2000
 		}
 	}
 	/* global sbd:readable, calcGraphDistance:readable, getNodesFromPath:readable, calcCacheLinkSGV2:readable */
-} else { // On browsers
-	// vivagraph.min.js must be loaded within HTML
-	// music_graph_descriptors_xxx (and the user set file) too!
-	console.log('\'music_graph_xxx\' script is being used on browser. Omitting \'include\' clause.');
-	/* global Viva:readable */
 }
 
 
@@ -782,8 +782,8 @@ function graphDebug(graph = musicGraph(), bShowPopupOnPass = false, bHtml = fals
 
 	const files = [
 		'music_graph_descriptors_xxx.js',
-		typeof music_graph_descriptors_user !== 'undefined' ? 'music_graph_descriptors_xxx_user.js' : '',
-		typeof music_graph_descriptors_allmusic !== 'undefined' ? 'music_graph_descriptors_xxx_allmusic.js' : ''
+		typeof music_graph_descriptors_user === 'undefined' ? '' : 'music_graph_descriptors_xxx_user.js',
+		typeof music_graph_descriptors_allmusic === 'undefined' ? '' : 'music_graph_descriptors_xxx_allmusic.js'
 	].filter(Boolean);
 	if (bWarning) {
 		const message = 'There are some errors on:\n\n' + files.map((s) => '\'' + s + '\'').join('\n');
@@ -832,10 +832,10 @@ async function graphStatistics({
 	const statistics = { maxDistance: -1, maxCount: 0, minNonZeroDistance: Infinity, minNonZeroCount: 0, minDistance: Infinity, minCount: 0, mean: -1, median: -1, mode: -1, sigma: -1, totalSize: -1, totalRawNodes: 0, totalNodes: 0 };
 	if (bFoobar) { // using tags from the current library
 		const genreTag = properties && properties.hasOwnProperty('genreTag') // eslint-disable-line no-prototype-builtins
-			? JSON.parse(properties.genreTag[1]).map((tag) => !tag.includes('$') ? _t(tag) : tag).join('|')
+			? JSON.parse(properties.genreTag[1]).map((tag) => tag.includes('$') ? tag : _t(tag)).join('|')
 			: _t(globTags.genre);
 		const styleTag = properties && properties.hasOwnProperty('styleTag') // eslint-disable-line no-prototype-builtins
-			? JSON.parse(properties.genreTag[1]).map((tag) => !tag.includes('$') ? _t(tag) : tag).join('|')
+			? JSON.parse(properties.genreTag[1]).map((tag) => tag.includes('$') ? tag : _t(tag)).join('|')
 			: _t(globTags.style);
 		const tags = [genreTag, styleTag].filter(Boolean).join('|');
 		const tfo = fb.TitleFormat(tags);
@@ -896,9 +896,9 @@ async function graphStatistics({
 	const sigmaConv = ['cluster', 'intra_supergenre'].map((key) => {
 		const coeff = toFraction(statistics.sigma / descriptor[key], 0.05);
 		return coeff[0]
-			? coeff[1] !== 1
-				? coeff.join('/') + ' x ' + key + ': ' + (coeff[0] / coeff[1] * descriptor[key])
-				: coeff[0] + ' x ' + key + ': ' + + (coeff[0] * descriptor[key])
+			? coeff[1] === 1
+				? coeff[0] + ' x ' + key + ': ' + + (coeff[0] * descriptor[key])
+				: coeff.join('/') + ' x ' + key + ': ' + (coeff[0] / coeff[1] * descriptor[key])
 			: null;
 	}).filter(Boolean);
 	// Report

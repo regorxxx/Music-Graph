@@ -1,5 +1,5 @@
 ﻿'use strict';
-//31/07/25
+//29/05/26
 
 /* global music_graph_descriptors:readable, SearchByDistance_panelProperties:readable */
 
@@ -1323,8 +1323,10 @@ if (Object.keys(music_graph_descriptors_allmusic).length) {
 			allm[key].forEach((nodeArray, i) => {
 				// [ [A,[values]], ..., [[X,[values]], ... ] index of X within main array? Using flat(), length gets doubled.
 				const doubleIndex = parent[key].flat().indexOf(nodeArray[0]);
-				const index = !(doubleIndex & 1) ? doubleIndex / 2 : -1; // -1 for odd indexes, halved for even values
-				if (index !== -1) { // If present on both files, replace with new value
+				const index = (doubleIndex & 1) ? -1 : doubleIndex / 2; // -1 for odd indexes, halved for even values
+				if (index === -1) { // Otherwise just push new pair
+					parent[key].push(allm[key][i]);
+				} else { // If present on both files, replace with new value
 					const oldPair = parent[key][index];
 					const newPair = allm[key][i];
 					const oldPairSet = new Set(oldPair[1]);
@@ -1334,8 +1336,6 @@ if (Object.keys(music_graph_descriptors_allmusic).length) {
 					// Note replacing [A,[B,C]] with [A,[]] is the same than deleting the line, since no link will be created
 					const newValue = newPairSet.size ? [...oldPairSet.union(newPairSet).difference(toDelete)] : [];
 					oldPair[1] = newValue;
-				} else { // Otherwise just push new pair
-					parent[key].push(allm[key][i]);
 				}
 			});
 		} else if (parent[key].constructor === Set && allm[key].constructor === Set) { // Sets

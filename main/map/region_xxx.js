@@ -1,5 +1,5 @@
 ﻿'use strict';
-//15/05/25
+//29/05/26
 
 function RegionMap({nodeName = 'node', intraSubRegionDist = 1, interSubRegionDist = 2, interRegionDist = 4, culturalRegion} = {}) {
 	this.culturalRegion = culturalRegion || {
@@ -90,7 +90,7 @@ RegionMap.prototype.getNodes = function getNodes() {
 };
 
 RegionMap.prototype.isMainRegion = function isMainRegion(region) {
-	return (this.has(region) && this.getMainRegions().indexOf(this.capitalize(region)) !== - 1);
+	return (this.has(region) && this.getMainRegions().includes(this.capitalize(region)));
 };
 
 RegionMap.prototype.regionContains = function regionContains(region, subRegion) {
@@ -106,7 +106,7 @@ RegionMap.prototype.regionHasNode = function regionHasNode(region, node) {
 	if (!node || !node.length) {console.log('regionHasNode: Node has not been set'); return bFound;}
 	if (this.has(region)) {
 		const key = this.get(region);
-		const subKey = this.capitalize(region) !== key ? this.capitalize(region) : null;
+		const subKey = this.capitalize(region) === key ? null : this.capitalize(region);
 		const nodeNorm = node.toUpperCase();
 		const findNode = (subKey) => {return this.cache.regionsNorm[subKey].has(nodeNorm);};
 		if (subKey) { // Look only at given subregion
