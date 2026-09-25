@@ -16,6 +16,7 @@
 - Code cleanup.
 ### Removed
 ### Fixed
+-HTML: multiple fixes to Draw Graph.html browser rendering.
 
 ## [3.0.0] - 2026-03-10
 ### Added
