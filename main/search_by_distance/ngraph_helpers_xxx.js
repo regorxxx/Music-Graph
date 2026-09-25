@@ -1,5 +1,5 @@
 ﻿'use strict';
-//01/12/25
+//17/04/26
 
 /* exported calcMeanDistanceV2, calcCacheLinkSG, calcCacheLinkSGV2 , getAntiInfluences, getInfluences, getNodesFromPath */
 
@@ -117,7 +117,8 @@ function calcGraphDistance(myGraph, keyOne, keyTwo, influenceMethod = 'adjacentN
 				// falls through
 			}
 			case 'adjacentnodes': { // Considering the adjacent nodes no matter their distance, so compare node set {Hip-Hop, Rap_supergenre} to {Blues_supergenre, Blues}
-				if (last !== 1) { // Otherwise we are repeating first->last multiple times
+				if (last === 1) { bDirect = true; }
+				else { // Otherwise we are repeating first->last multiple times
 					let adjLinkNodeFrom = new Set();
 					let adjLinkNodeTo = new Set();
 					firstNode = path[0].id; lastNode = path[last].id;
@@ -137,7 +138,7 @@ function calcGraphDistance(myGraph, keyOne, keyTwo, influenceMethod = 'adjacentN
 							ids.clear();
 						});
 					});
-				} else { bDirect = true; }
+				}
 				break;
 			}
 			case 'zeronodes': { // NOSONAR [fallthrough] Considering only the adjacent nodes at zero distance, equivalent to prev. method but only when links are substitutions
@@ -351,7 +352,7 @@ function calcCacheLinkSGV2(myGraph, styleGenres /*new Set (['Rock', 'Folk', ...]
 
 function getAntiInfluences(genreStyle) { // NOSONAR [it's same type...]
 	const doubleIndex = music_graph_descriptors.style_anti_influence.flat().indexOf(genreStyle);
-	const index = !(doubleIndex & 1) ? doubleIndex / 2 : -1; // -1 for odd indexes, halved for even values
+	const index = (doubleIndex & 1) ? -1 : doubleIndex / 2; // -1 for odd indexes, halved for even values
 	if (index !== -1) {
 		return music_graph_descriptors.style_anti_influence[index][1];
 	}
@@ -360,7 +361,7 @@ function getAntiInfluences(genreStyle) { // NOSONAR [it's same type...]
 
 function getInfluences(genreStyle) { // NOSONAR [it's same type...]
 	const doubleIndex = music_graph_descriptors.style_primary_origin.flat().indexOf(genreStyle);
-	const index = !(doubleIndex & 1) ? doubleIndex / 2 : -1; // -1 for odd indexes, halved for even values
+	const index = (doubleIndex & 1) ? -1 : doubleIndex / 2; // -1 for odd indexes, halved for even values
 	if (index !== -1) {
 		return music_graph_descriptors.style_primary_origin[index][1];
 	}
