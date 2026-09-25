@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * Creates new instance of NBASearchState. The instance stores information

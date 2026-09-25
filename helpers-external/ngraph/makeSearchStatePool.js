@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * This class represents a single search node in the exploration tree for

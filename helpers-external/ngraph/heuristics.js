@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * Euclid distance (l2 norm);

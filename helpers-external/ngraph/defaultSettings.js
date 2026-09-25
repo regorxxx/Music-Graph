@@ -1,4 +1,4 @@
-//22/11/23
+﻿//22/11/23
 'use strict';
 
 // We reuse instance of array, but we trie to freeze it as well,
