@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 // 07/08/25
 const Selection = (function () {
 	function copyTextToClipboard(text) {
