@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 // https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color
 
