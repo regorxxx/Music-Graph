@@ -1,5 +1,5 @@
 ﻿'use strict';
-//06/08/25
+//06/06/26
 
 /* exported findCountryCoords,isNearCountry, findCountry, getCountryName, alpha3toAlpha2, nameReplacersRev, nameShortRev */
 
@@ -12,11 +12,15 @@
 
 // Helper
 function findCountryCoords({ id /* country */, mapWidth, mapHeight, factorX, factorY } = {}) { // Mercator projection
-	let xy = [-1, -1];
+	let xy = [-1, -1, -1, -1];
 	const isoCode = getCountryISO(id);
 	if (isoCode.length) {
-		let [latitude, longitude] = isoCoordinates.get(isoCode);
-		if (latitude != null) { xy = mercatorProj(latitude, longitude, mapWidth, mapHeight, factorX, factorY); }
+		let [latitude, longitude] = (isoCoordinates.get(isoCode) || []);
+		if (typeof latitude !== 'undefined' && typeof longitude !== 'undefined') {
+			xy = mercatorProj(latitude, longitude, mapWidth, mapHeight, factorX, factorY);
+			const corr = isoCoordinatesCentered.get(isoCode);
+			if (corr) { [xy[2], xy[3]] = mercatorProj(corr[0], corr[1], mapWidth, mapHeight, factorX, factorY); }
+		}
 	}
 	return xy;
 }
@@ -43,7 +47,7 @@ function isNearCountry({ id, x, y, mapWidth, mapHeight, factorX, factorY, precis
 		.every((coordProx) => coordProx >= precision);
 }
 
-function findCountry({ x, y, mapWidth, mapHeight, factorX, factorY, precision = 0.94, minPrecision = 0.75, bForceOutput = true, bSingle = false } = {}) { // Mercator projection
+function findCountry({ x, y, mapWidth, mapHeight, factorX, factorY, precision = 0.94, minPrecision = 0.75, bForceOutput = true, bSingle = false } = {}) { // NOSONAR Mercator projection
 	if (bSingle) { bForceOutput = true; }
 	let countries = [];
 	// Force at least a country by lowering the precision. Note some countries are really big (compared to the point)! So this is needed
@@ -78,8 +82,8 @@ function getCountryISO(country, bAlpha2 = false) {
 			if (isoMap.has(country.toLowerCase())) { isoCode = isoMap.get(country.toLowerCase()); } // NOSONAR
 			else if (nameReplacers.has(country.toLowerCase())) { isoCode = isoMap.get(nameReplacers.get(country.toLowerCase())); }
 		}
+		if (bAlpha2 && isoCode.length) { isoCode = alpha3toAlpha2.get(isoCode); }
 	}
-	if (bAlpha2 && isoCode.length) { isoCode = alpha3toAlpha2.get(isoCode); }
 	return isoCode;
 }
 
@@ -105,6 +109,10 @@ const isoMapRev = new Map(Array.from(isoMap, (arr) => arr.reverse()));
 
 const isoCoordinates = new Map([
 	['AFG', [33, 65]], ['ALB', [41, 20]], ['DZA', [28, 3]], ['ASM', [-14, -170]], ['AND', [43, 2]], ['AGO', [-13, 19]], ['AIA', [18, -63]], ['ATA', [-90, 0]], ['ATG', [17, -62]], ['ARG', [-34, -64]], ['ARM', [40, 45]], ['ABW', [13, -70]], ['AUS', [-27, 133]], ['AUT', [47, 13]], ['AZE', [41, 48]], ['BHS', [24, -76]], ['BHR', [26, 51]], ['BGD', [24, 90]], ['BRB', [13, -60]], ['BLR', [53, 28]], ['BEL', [51, 4]], ['BLZ', [17, -89]], ['BEN', [10, 2]], ['BMU', [32, -65]], ['BTN', [28, 91]], ['BOL', [-17, -65]], ['BIH', [44, 18]], ['BWA', [-22, 24]], ['BVT', [-54, 3]], ['BRA', [-10, -55]], ['IOT', [-6, 72]], ['BRN', [5, 115]], ['BGR', [43, 25]], ['BFA', [13, -2]], ['BDI', [-4, 30]], ['KHM', [13, 105]], ['CMR', [6, 12]], ['CAN', [60, -95]], ['CPV', [16, -24]], ['CYM', [20, -81]], ['CAF', [7, 21]], ['TCD', [15, 19]], ['CHL', [-30, -71]], ['CHN', [35, 105]], ['CXR', [-11, 106]], ['CCK', [-13, 97]], ['COL', [4, -72]], ['COM', [-12, 44]], ['COG', [-1, 15]], ['COD', [0, 25]], ['COK', [-21, -160]], ['CRI', [10, -84]], ['CIV', [8, -5]], ['HRV', [45, 16]], ['CUB', [22, -80]], ['CYP', [35, 33]], ['CZE', [50, 16]], ['DNK', [56, 10]], ['DJI', [12, 43]], ['DMA', [15, -61]], ['DOM', [19, -71]], ['ECU', [-2, -78]], ['EGY', [27, 30]], ['SLV', [14, -89]], ['GNQ', [2, 10]], ['ERI', [15, 39]], ['EST', [59, 26]], ['ETH', [8, 38]], ['FLK', [-52, -59]], ['FRO', [62, -7]], ['FJI', [-18, 175]], ['FIN', [64, 26]], ['FRA', [46, 2]], ['GUF', [4, -53]], ['PYF', [-15, -140]], ['ATF', [-43, 67]], ['GAB', [-1, 12]], ['GMB', [13, -17]], ['GEO', [42, 44]], ['DEU', [51, 9]], ['GHA', [8, -2]], ['GIB', [36, -5]], ['GRC', [39, 22]], ['GRL', [72, -40]], ['GRD', [12, -62]], ['GLP', [16, -62]], ['GUM', [13, 145]], ['GTM', [16, -90]], ['GGY', [50, -3]], ['GIN', [11, -10]], ['GNB', [12, -15]], ['GUY', [5, -59]], ['HTI', [19, -72]], ['HMD', [-53, 73]], ['VAT', [42, 12]], ['HND', [15, -87]], ['HKG', [22, 114]], ['HUN', [47, 20]], ['ISL', [65, -18]], ['IND', [20, 77]], ['IDN', [-5, 120]], ['IRN', [32, 53]], ['IRQ', [33, 44]], ['IRL', [53, -8]], ['IMN', [54, -5]], ['ISR', [32, 35]], ['ITA', [43, 13]], ['JAM', [18, -78]], ['JPN', [36, 138]], ['JEY', [49, -2]], ['JOR', [31, 36]], ['KAZ', [48, 68]], ['KEN', [1, 38]], ['KIR', [1, 173]], ['PRK', [40, 127]], ['KOR', [37, 128]], ['KWT', [29, 48]], ['KGZ', [41, 75]], ['LAO', [18, 105]], ['LVA', [57, 25]], ['LBN', [34, 36]], ['LSO', [-30, 29]], ['LBR', [7, -10]], ['LBY', [25, 17]], ['LIE', [47, 10]], ['LTU', [56, 24]], ['LUX', [50, 6]], ['MAC', [22, 114]], ['MKD', [42, 22]], ['MDG', [-20, 47]], ['MWI', [-14, 34]], ['MYS', [3, 113]], ['MDV', [3, 73]], ['MLI', [17, -4]], ['MLT', [36, 15]], ['MHL', [9, 168]], ['MTQ', [15, -61]], ['MRT', [20, -12]], ['MUS', [-20, 58]], ['MYT', [-13, 45]], ['MEX', [23, -102]], ['FSM', [7, 158]], ['MDA', [47, 29]], ['MCO', [44, 7]], ['MNG', [46, 105]], ['MNE', [42, 19]], ['MSR', [17, -62]], ['MAR', [32, -5]], ['MOZ', [-18, 35]], ['MMR', [22, 98]], ['NAM', [-22, 17]], ['NRU', [-1, 167]], ['NPL', [28, 84]], ['NLD', [53, 6]], ['ANT', [12, -69]], ['NCL', [-22, 166]], ['NZL', [-41, 174]], ['NIC', [13, -85]], ['NER', [16, 8]], ['NGA', [10, 8]], ['NIU', [-19, -170]], ['NFK', [-29, 168]], ['MNP', [15, 146]], ['NOR', [62, 10]], ['OMN', [21, 57]], ['PAK', [30, 70]], ['PLW', [8, 135]], ['PSE', [32, 35]], ['PAN', [9, -80]], ['PNG', [-6, 147]], ['PRY', [-23, -58]], ['PER', [-10, -76]], ['PHL', [13, 122]], ['PCN', [-25, -127]], ['POL', [52, 20]], ['PRT', [40, -8]], ['PRI', [18, -67]], ['QAT', [26, 51]], ['REU', [-21, 56]], ['ROU', [46, 25]], ['RUS', [60, 100]], ['RWA', [-2, 30]], ['SHN', [-16, -6]], ['KNA', [17, -63]], ['LCA', [14, -61]], ['SPM', [47, -56]], ['VCT', [13, -61]], ['WSM', [-14, -172]], ['SMR', [44, 12]], ['STP', [1, 7]], ['SAU', [25, 45]], ['SEN', [14, -14]], ['SRB', [44, 21]], ['SYC', [-5, 56]], ['SLE', [9, -12]], ['SGP', [1, 104]], ['SVK', [49, 20]], ['SVN', [46, 15]], ['SLB', [-8, 159]], ['SOM', [10, 49]], ['ZAF', [-29, 24]], ['SGS', [-55, -37]], ['SSD', [8, 30]], ['ESP', [40, -4]], ['LKA', [7, 81]], ['SDN', [15, 30]], ['SUR', [4, -56]], ['SJM', [78, 20]], ['SWZ', [-27, 32]], ['SWE', [62, 15]], ['CHE', [47, 8]], ['SYR', [35, 38]], ['TWN', [24, 121]], ['TJK', [39, 71]], ['TZA', [-6, 35]], ['THA', [15, 100]], ['TLS', [-9, 126]], ['TGO', [8, 1]], ['TKL', [-9, -172]], ['TON', [-20, -175]], ['TTO', [11, -61]], ['TUN', [34, 9]], ['TUR', [39, 35]], ['TKM', [40, 60]], ['TCA', [22, -72]], ['TUV', [-8, 178]], ['UGA', [1, 32]], ['UKR', [49, 32]], ['ARE', [24, 54]], ['GBR', [54, -2]], ['USA', [38, -97]], ['UMI', [19, 167]], ['URY', [-33, -56]], ['UZB', [41, 64]], ['VUT', [-16, 167]], ['VEN', [8, -66]], ['VNM', [16, 106]], ['VGB', [19, -65]], ['VIR', [18, -65]], ['WLF', [-13, -176]], ['ESH', [25, -13]], ['YEM', [15, 48]], ['ZMB', [-15, 30]], ['ZWE', [-20, 30]]
+]);
+
+const isoCoordinatesCentered = new Map([
+	['USA', [44, -107]]
 ]);
 
 const alpha3toAlpha2 = new Map([
@@ -166,13 +174,22 @@ if (typeof music_graph_descriptors_countries !== 'undefined' && typeof music_gra
 	const parent = music_graph_descriptors_countries;
 	// Check all region names match
 	let bMatch = true;
-	if (typeof include !== 'undefined') {
+	if (typeof include === 'undefined') {
+		const isEqual = (parent, subset) => {
+			if (parent.size > subset.size) { return false; }
+			let bSome = false;
+			for (const elem of parent) {
+				if (!subset.has(elem)) {
+					return false;
+				}
+				bSome = true;
+			}
+			return bSome;
+		};
+		if (!(isEqual(new Set(music_graph_descriptors_culture.getRegionNames()), new Set(parent.getRegionNames())))) { bMatch = false; }
+	} else {
 		include('..\\..\\helpers\\helpers_xxx_prototypes.js');
 		if (!(new Set(music_graph_descriptors_culture.getRegionNames()).isEqual(new Set(parent.getRegionNames())))) { bMatch = false; }
-	} else {
-		const isSuperset = (parent, subset) => { for (let elem of subset) { if (!parent.has(elem)) { return false; } } return true; };
-		const isEqual = (parent, subset) => { return (parent.size === subset.size && isSuperset(parent, subset)); };
-		if (!(isEqual(new Set(music_graph_descriptors_culture.getRegionNames()), new Set(parent.getRegionNames())))) { bMatch = false; }
 	}
 	if (!bMatch) { console.log('music_graph_descriptors_xxx_culture: Regions don\'t match'); }
 	// Check all countries are present in both places

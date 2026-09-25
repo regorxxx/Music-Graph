@@ -1,5 +1,5 @@
 ﻿'use strict';
-//12/08/25
+//29/05/26
 
 // Required since this script is loaded on browsers for drawing too!
 if (typeof include !== 'undefined') {
@@ -139,8 +139,8 @@ const music_graph_descriptors_culture = new RegionMap({
 	}
 });
 // Alternate method using substitutions
-music_graph_descriptors_culture.regionHasStyle = function (style) {
-	return [style, music_graph_descriptors.getSubstitution(style)].some(this.regionHasNode);
+music_graph_descriptors_culture.regionHasStyle = function (region, style) {
+	return [style, music_graph_descriptors.getSubstitution(style)].some((s) => this.regionHasNode(region, s));
 };
 music_graph_descriptors_culture.getStyleRegion = function (style) {
 	const styles = [style, music_graph_descriptors.getSubstitution(style)];
