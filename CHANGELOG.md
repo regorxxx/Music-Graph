@@ -13,6 +13,7 @@
 ## [Unreleased][]
 ### Added
 ### Changed
+- Descriptors: minor changes to Ambient Classical relationships.
 - Helpers: updated helpers.
 - Code cleanup.
 ### Removed

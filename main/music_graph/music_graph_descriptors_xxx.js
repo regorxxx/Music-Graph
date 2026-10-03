@@ -1,5 +1,5 @@
 ﻿'use strict';
-//12/08/25
+//27/09/25
 
 /*
 	These are the variables of the music graph: nodes (styles and genres), links, link weighting (aka distance) and rendering settings.
@@ -289,6 +289,7 @@ const music_graph_descriptors = {
 		['Folk_cluster'						,	['Country_cluster','Blue_Note_cluster']],
 		['Classical Modernist Era_supergenre',	['New Age','Neo-Classical New Age']],
 		['Classical Modernist Era_supergenre',	['Ragtime','Stride']],
+		['Ambient Classical'				,	['New Age','Neo-Classical New Age']],
 		['Hillbilly'						,	['Country Blues','North American Folk_supergenre']],
 		['Proto-Stoner Rock'				,	['Stoner Rock','Stoner Doom','Stoner Sludge']],
 		['Proto-Metal'						,	['Classic Metal']],
