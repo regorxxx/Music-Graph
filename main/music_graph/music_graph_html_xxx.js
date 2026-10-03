@@ -1,5 +1,5 @@
 ﻿'use strict';
-//01/12/25
+//30/09/26
 
 /* exported capitalize, capitalizeAll, strNumCollator */
 /* global Viva:readable */
@@ -38,7 +38,7 @@ function capitalize(s) {
 	return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
 }
 
-function capitalizeAll(s, sep = ' ', bJoinSep = true) { // Can use RegEx as separator, when using RegEx with capture groups to also include separators on split array, bJoinSep should be false to join 'as is'
+function capitalizeAll(s, sep = ' ', bJoinSep = true, bPartial = false) { // Can use RegEx as separator, when using RegEx with capture groups to also include separators on split array, bJoinSep should be false to join 'as is'
 	if (typeof s !== 'string' || !s.length) {return typeof s === 'number' ? s.toString() : '';}
 	if (Array.isArray(sep)) {
 		const copy = [...s.toLowerCase()];
@@ -53,7 +53,7 @@ function capitalizeAll(s, sep = ' ', bJoinSep = true) { // Can use RegEx as sepa
 		}
 		return copy.join('');
 	}
-	return s.split(sep).map( (subS) => {return subS.charAt(0).toUpperCase() + subS.slice(1).toLowerCase();}).join(bJoinSep ? sep : ''); // Split, capitalize each subString and join
+	return s.split(sep).map((subS) => subS.charAt(0).toUpperCase() + (bPartial ? subS.slice(1) : subS.slice(1).toLowerCase())).join(bJoinSep ? sep : ''); // Split, capitalize each subString and join
 }
 
 // Inject missing method on Graphs, not present on Viva.Graph
